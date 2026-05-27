@@ -1,0 +1,104 @@
+bench/corpus.json
+  s_8b936c5766eadb::t_8debf05348f5a7 1-155
+bench/goldset/retrieval/express.json
+  s_8b936c5766eadb::t_b5884617429a9a 1-210
+tests/test_goldset.py
+  s_8b936c5766eadb::t_92101a13276f31 1-47
+pyproject.toml
+  s_8b936c5766eadb::t_9ad5df643cd097 1-38
+bench/goldset/graph/gin.yaml
+  s_8b936c5766eadb::t_b5884617429a9a 1-44
+bench/report.py
+  s_8b936c5766eadb::t_587aea564178fc 1-76
+tests/test_metrics.py
+  s_8b936c5766eadb::t_0ba1d4d96f427c 1-76
+bench/matching.py
+  s_8b936c5766eadb::t_eb3c9f2ef5bdf9 1-57
+bench/config.py
+  s_8b936c5766eadb::t_3f5aaf7c06e043 1-21
+bench/goldset/retrieval/fastapi.json
+  s_8b936c5766eadb::t_b5884617429a9a 1-225
+bench/adapters/__init__.py
+  s_8b936c5766eadb::t_e1332f899932a0 1
+bench/goldset/retrieval/httpx.json
+  s_8b936c5766eadb::t_b5884617429a9a 1-197
+bench/workers/crg_worker.py
+  s_8b936c5766eadb::t_e1453f173364df 1-109
+bench/adapters/codegraph_adapter.py
+  s_8b936c5766eadb::t_f4b22cd4db6e73 1-103
+bench/goldset/retrieval/flask.json
+  s_8b936c5766eadb::t_b5884617429a9a 1-203
+bench/goldset/SOURCES.md
+  s_8b936c5766eadb::t_595165f244cc4e 1-30
+bench/runners/registry.py
+  s_8b936c5766eadb::t_bea94a032f0108 1-22
+bench/runners/perf.py
+  s_8b936c5766eadb::t_020e151786aa3e 1-97
+bench/runners/arm_b_graph.py
+  s_8b936c5766eadb::t_782db9ae62fded 1-9
+bench/__init__.py
+  s_8b936c5766eadb::t_3542ee8b1edc7a 1-3
+bench/goldset/graph/express.yaml
+  s_8b936c5766eadb::t_b5884617429a9a 1-38
+bench/paths.py
+  s_8b936c5766eadb::t_c074e3911711b8 1-22
+bench/goldset/retrieval/gin.json
+  s_8b936c5766eadb::t_b5884617429a9a 1-181
+bench/workers/semble_worker.py
+  s_8b936c5766eadb::t_d3d01470a90471 1-73
+bench/goldset/__init__.py
+  s_8b936c5766eadb::t_5adae61dbaf478 1-33
+bench/runners/arm_c_combined.py
+  s_8b936c5766eadb::t_782db9ae62fded 1-9
+bench/adapters/semble_adapter.py
+  s_8b936c5766eadb::t_992861203145ad 1-82
+docker/semble.Dockerfile
+  s_8b936c5766eadb::t_ea26619b1458aa 1-29
+bench/metrics.py
+  s_8b936c5766eadb::t_ca1dcd2ee81580 1-71
+bench/fetch.py
+  s_8b936c5766eadb::t_a870641d64040a 1-73
+bench/runners/arm_a_retrieval.py
+  s_8b936c5766eadb::t_147500ec7a810b 1-101
+bench/cli.py
+  s_8b936c5766eadb::t_49a1b60c29ef83 1-115
+bench/adapters/base.py
+  s_8b936c5766eadb::t_19da48b3f3ce33 1-68
+.gitignore
+  s_8b936c5766eadb::t_74bf06a67adb68 1-3,11-27
+  s_8b936c5766eadb::t_2c5076aaf95557 4-10
+bench/adapters/crg_adapter.py
+  s_8b936c5766eadb::t_c86df494b14647 1-73
+bench/goldset/graph/fastapi.yaml
+  s_8b936c5766eadb::t_b5884617429a9a 1-41
+bench/goldset/graph/flask.yaml
+  s_8b936c5766eadb::t_b5884617429a9a 1-43
+bench/runners/__init__.py
+  s_8b936c5766eadb::t_3d956a4f00ca25 1
+bench/goldset/retrieval/alamofire.json
+  s_8b936c5766eadb::t_b5884617429a9a 1-172
+bench/goldset/retrieval/tokio.json
+  s_8b936c5766eadb::t_b5884617429a9a 1-168
+bench/goldset/schema.py
+  s_8b936c5766eadb::t_e16feae8aec3d0 1-210
+bench/runners/arm_d_agent.py
+  s_8b936c5766eadb::t_782db9ae62fded 1-9
+bench/goldset/graph/httpx.yaml
+  s_8b936c5766eadb::t_b5884617429a9a 1-41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "51598567eae1941bd4c8dc8be5d4886f4ca8ccf5",
+  "prompts": {},
+  "sessions": {
+    "s_8b936c5766eadb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a975aadb-83a5-4f45-ac62-85580e55626c",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Minsu Lee <amond@amond.net>"
+    }
+  }
+}
