@@ -48,9 +48,10 @@ them tests whether **semble + a graph tool** beats either alone:
   graph tool's own search already nailed it (gin/httpx codegraph). Net: semble is
   a strong **complement** on hard NL cases, not a universal replacement.
 
-> Numbers come from the committed reference run in [`results/`](results/); regenerate
-> with `cgbench report`. Multi-hop tasks are few per repo (1–3), so Arm B/C are
-> directional, not precise.
+> Full tables (all arms, with per-repo numbers and interpretation) are in
+> [**RESULTS.md**](RESULTS.md). They come from the committed reference run in
+> [`results/`](results/); regenerate with `cgbench report`. Multi-hop tasks are
+> few per repo (1–3), so Arm B/C are directional, not precise.
 
 ## Corpus & gold set
 
