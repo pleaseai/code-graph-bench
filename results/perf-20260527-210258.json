@@ -1,0 +1,560 @@
+{
+  "arm": "perf",
+  "date": "2026-05-27",
+  "results": [
+    {
+      "tool": "semble",
+      "version": "semble (docker sha256:207233e6795b)",
+      "repo": "flask",
+      "language": "python",
+      "index_ms": 5073.661773989443,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "indexed_files": 86,
+        "total_chunks": 537
+      },
+      "db_bytes": null,
+      "units": 537,
+      "throughput_units_per_s": 105.84071700501914,
+      "latency_p50_ms": 1.6377849970012903,
+      "latency_p90_ms": 8.101251005427912,
+      "latency_p95_ms": 8.432821996393614,
+      "latency_p99_ms": 9.007298803771846
+    },
+    {
+      "tool": "crg",
+      "version": "code-review-graph 2.3.5",
+      "repo": "flask",
+      "language": "python",
+      "index_ms": 1255.6925589888124,
+      "build_ms": 1008.1584619911155,
+      "post_ms": 247.5340969976969,
+      "stats": {
+        "total_nodes": 1449,
+        "total_edges": 8334,
+        "files_count": 86
+      },
+      "db_bytes": 11501568,
+      "units": 1449,
+      "throughput_units_per_s": 1153.944880558068,
+      "latency_p50_ms": 1.8412859935779124,
+      "latency_p90_ms": 2.0168129994999617,
+      "latency_p95_ms": 2.079290003166534,
+      "latency_p99_ms": 2.5190332002239306
+    },
+    {
+      "tool": "codegraph",
+      "version": "codegraph 0.9.6",
+      "repo": "flask",
+      "language": "python",
+      "index_ms": 1429.3116569897393,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "files_count": 91,
+        "total_nodes": 2710,
+        "total_edges": 4772
+      },
+      "db_bytes": 4235264,
+      "units": 2710,
+      "throughput_units_per_s": 1896.0175597444627,
+      "latency_p50_ms": 253.14397001056932,
+      "latency_p90_ms": 261.68686100572813,
+      "latency_p95_ms": 267.15791499009356,
+      "latency_p99_ms": 275.2524333889596
+    },
+    {
+      "tool": "soop",
+      "version": "soop (docker sha256:a12600156cea)",
+      "repo": "flask",
+      "language": "python",
+      "index_ms": 40747.303241,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "entities": 1707,
+        "files": 83
+      },
+      "db_bytes": null,
+      "units": null,
+      "throughput_units_per_s": null,
+      "latency_p50_ms": 1.0141360000052373,
+      "latency_p90_ms": 1.9002249999975902,
+      "latency_p95_ms": 2.174661000004562,
+      "latency_p99_ms": 2.8148698000019072
+    },
+    {
+      "tool": "semble",
+      "version": "semble (docker sha256:207233e6795b)",
+      "repo": "fastapi",
+      "language": "python",
+      "index_ms": 8768.89303799544,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "indexed_files": 953,
+        "total_chunks": 3687
+      },
+      "db_bytes": null,
+      "units": 3687,
+      "throughput_units_per_s": 420.4635618229464,
+      "latency_p50_ms": 4.8589185025775805,
+      "latency_p90_ms": 32.072596110811,
+      "latency_p95_ms": 35.21509494676138,
+      "latency_p99_ms": 36.13718699765741
+    },
+    {
+      "tool": "crg",
+      "version": "code-review-graph 2.3.5",
+      "repo": "fastapi",
+      "language": "python",
+      "index_ms": 4773.374304000754,
+      "build_ms": 3687.79296700086,
+      "post_ms": 1085.5813369998941,
+      "stats": {
+        "total_nodes": 6300,
+        "total_edges": 32101,
+        "files_count": 1131
+      },
+      "db_bytes": 52568064,
+      "units": 6300,
+      "throughput_units_per_s": 1319.8210738930993,
+      "latency_p50_ms": 7.794652992743067,
+      "latency_p90_ms": 8.92954219452804,
+      "latency_p95_ms": 9.00782258977415,
+      "latency_p99_ms": 9.193271721305791
+    },
+    {
+      "tool": "codegraph",
+      "version": "codegraph 0.9.6",
+      "repo": "fastapi",
+      "language": "python",
+      "index_ms": 7771.666451997589,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "files_count": 1176,
+        "total_nodes": 12294,
+        "total_edges": 16106
+      },
+      "db_bytes": 18309120,
+      "units": 12294,
+      "throughput_units_per_s": 1581.9001080315295,
+      "latency_p50_ms": 263.16741549089784,
+      "latency_p90_ms": 272.41500719537726,
+      "latency_p95_ms": 278.13447235457716,
+      "latency_p99_ms": 303.31045047627407
+    },
+    {
+      "tool": "soop",
+      "version": "soop (docker sha256:a12600156cea)",
+      "repo": "fastapi",
+      "language": "python",
+      "index_ms": 43397.510618,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "entities": 6397,
+        "files": 1125
+      },
+      "db_bytes": null,
+      "units": null,
+      "throughput_units_per_s": null,
+      "latency_p50_ms": 1.5046220000003814,
+      "latency_p90_ms": 2.4699076999990215,
+      "latency_p95_ms": 2.610637600001428,
+      "latency_p99_ms": 2.7444219199982034
+    },
+    {
+      "tool": "semble",
+      "version": "semble (docker sha256:207233e6795b)",
+      "repo": "httpx",
+      "language": "python",
+      "index_ms": 2889.3241889891215,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "indexed_files": 58,
+        "total_chunks": 497
+      },
+      "db_bytes": null,
+      "units": 497,
+      "throughput_units_per_s": 172.01254255026458,
+      "latency_p50_ms": 1.935913009219803,
+      "latency_p90_ms": 8.393476004130207,
+      "latency_p95_ms": 8.630195006844588,
+      "latency_p99_ms": 9.57412859715987
+    },
+    {
+      "tool": "crg",
+      "version": "code-review-graph 2.3.5",
+      "repo": "httpx",
+      "language": "python",
+      "index_ms": 1291.9885269948281,
+      "build_ms": 1057.0447829959448,
+      "post_ms": 234.9437439988833,
+      "stats": {
+        "total_nodes": 1261,
+        "total_edges": 8228,
+        "files_count": 68
+      },
+      "db_bytes": 10993664,
+      "units": 1261,
+      "throughput_units_per_s": 976.0148589965364,
+      "latency_p50_ms": 1.7850459989858791,
+      "latency_p90_ms": 2.019311999902129,
+      "latency_p95_ms": 2.069024005322717,
+      "latency_p99_ms": 2.1855856030015275
+    },
+    {
+      "tool": "codegraph",
+      "version": "codegraph 0.9.6",
+      "repo": "httpx",
+      "language": "python",
+      "index_ms": 1194.7145669983001,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "files_count": 66,
+        "total_nodes": 1717,
+        "total_edges": 3180
+      },
+      "db_bytes": 3166208,
+      "units": 1717,
+      "throughput_units_per_s": 1437.163358871511,
+      "latency_p50_ms": 257.67231300415006,
+      "latency_p90_ms": 265.63012099359185,
+      "latency_p95_ms": 266.75358798820525,
+      "latency_p99_ms": 268.99509279755875
+    },
+    {
+      "tool": "soop",
+      "version": "soop (docker sha256:a12600156cea)",
+      "repo": "httpx",
+      "language": "python",
+      "index_ms": 26973.158245,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "entities": 1301,
+        "files": 60
+      },
+      "db_bytes": null,
+      "units": null,
+      "throughput_units_per_s": null,
+      "latency_p50_ms": 1.0826500000002852,
+      "latency_p90_ms": 1.3689589999994496,
+      "latency_p95_ms": 1.5380660000009811,
+      "latency_p99_ms": 1.6462804000024336
+    },
+    {
+      "tool": "semble",
+      "version": "semble (docker sha256:207233e6795b)",
+      "repo": "express",
+      "language": "javascript",
+      "index_ms": 2811.04664200393,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "indexed_files": 148,
+        "total_chunks": 523
+      },
+      "db_bytes": null,
+      "units": 523,
+      "throughput_units_per_s": 186.05169767911264,
+      "latency_p50_ms": 2.1038805061834864,
+      "latency_p90_ms": 2.595126298547257,
+      "latency_p95_ms": 3.1821347998629834,
+      "latency_p99_ms": 7.877913357078788
+    },
+    {
+      "tool": "crg",
+      "version": "code-review-graph 2.3.5",
+      "repo": "express",
+      "language": "javascript",
+      "index_ms": 2258.3145609969506,
+      "build_ms": 1865.5065869970713,
+      "post_ms": 392.8079739998793,
+      "stats": {
+        "total_nodes": 1912,
+        "total_edges": 18877,
+        "files_count": 141
+      },
+      "db_bytes": 24092672,
+      "units": 1912,
+      "throughput_units_per_s": 846.6491041690546,
+      "latency_p50_ms": 2.461579002556391,
+      "latency_p90_ms": 2.6305829975171946,
+      "latency_p95_ms": 2.6561854538158514,
+      "latency_p99_ms": 2.7127818859298714
+    },
+    {
+      "tool": "codegraph",
+      "version": "codegraph 0.9.6",
+      "repo": "express",
+      "language": "javascript",
+      "index_ms": 1202.8691540035652,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "files_count": 147,
+        "total_nodes": 990,
+        "total_edges": 810
+      },
+      "db_bytes": 1196032,
+      "units": 990,
+      "throughput_units_per_s": 823.0321616486191,
+      "latency_p50_ms": 244.8672565005836,
+      "latency_p90_ms": 252.95671760832192,
+      "latency_p95_ms": 259.0752003452508,
+      "latency_p99_ms": 260.48216327035334
+    },
+    {
+      "tool": "soop",
+      "version": "soop (docker sha256:a12600156cea)",
+      "repo": "express",
+      "language": "javascript",
+      "index_ms": 40235.184529,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "entities": 264,
+        "files": 141
+      },
+      "db_bytes": null,
+      "units": null,
+      "throughput_units_per_s": null,
+      "latency_p50_ms": 0.6999484999978449,
+      "latency_p90_ms": 1.0801092999980029,
+      "latency_p95_ms": 1.0848174500035384,
+      "latency_p99_ms": 1.1455330899984255
+    },
+    {
+      "tool": "semble",
+      "version": "semble (docker sha256:207233e6795b)",
+      "repo": "gin",
+      "language": "go",
+      "index_ms": 1864.9838440032909,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "indexed_files": 99,
+        "total_chunks": 576
+      },
+      "db_bytes": null,
+      "units": 576,
+      "throughput_units_per_s": 308.8498604704179,
+      "latency_p50_ms": 1.7576014943188056,
+      "latency_p90_ms": 8.94801330578048,
+      "latency_p95_ms": 10.22761790882214,
+      "latency_p99_ms": 10.319682778062997
+    },
+    {
+      "tool": "crg",
+      "version": "code-review-graph 2.3.5",
+      "repo": "gin",
+      "language": "go",
+      "index_ms": 1659.5711870031664,
+      "build_ms": 1313.11977400037,
+      "post_ms": 346.45141300279647,
+      "stats": {
+        "total_nodes": 1613,
+        "total_edges": 17637,
+        "files_count": 99
+      },
+      "db_bytes": 20680704,
+      "units": 1613,
+      "throughput_units_per_s": 971.9378190174149,
+      "latency_p50_ms": 1.9426760045462288,
+      "latency_p90_ms": 2.110822105896659,
+      "latency_p95_ms": 2.15312465588795,
+      "latency_p99_ms": 2.2536977301933803
+    },
+    {
+      "tool": "codegraph",
+      "version": "codegraph 0.9.6",
+      "repo": "gin",
+      "language": "go",
+      "index_ms": 2097.835505992407,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "files_count": 110,
+        "total_nodes": 2544,
+        "total_edges": 7217
+      },
+      "db_bytes": 5603328,
+      "units": 2544,
+      "throughput_units_per_s": 1212.6784930148895,
+      "latency_p50_ms": 246.11077600275166,
+      "latency_p90_ms": 250.70326279383153,
+      "latency_p95_ms": 259.75881543927244,
+      "latency_p99_ms": 261.7752086794644
+    },
+    {
+      "tool": "soop",
+      "version": "soop (docker sha256:a12600156cea)",
+      "repo": "gin",
+      "language": "go",
+      "index_ms": 42333.160025,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "entities": 1619,
+        "files": 99
+      },
+      "db_bytes": null,
+      "units": null,
+      "throughput_units_per_s": null,
+      "latency_p50_ms": 1.0841849999960687,
+      "latency_p90_ms": 1.5680016000012984,
+      "latency_p95_ms": 1.6409161000043242,
+      "latency_p99_ms": 1.688250419998003
+    },
+    {
+      "tool": "semble",
+      "version": "semble (docker sha256:207233e6795b)",
+      "repo": "tokio",
+      "language": "rust",
+      "index_ms": 6273.266484000487,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "indexed_files": 776,
+        "total_chunks": 4552
+      },
+      "db_bytes": null,
+      "units": 4552,
+      "throughput_units_per_s": 725.6187843461692,
+      "latency_p50_ms": 5.731828496209346,
+      "latency_p90_ms": 35.499691500444904,
+      "latency_p95_ms": 39.6330378469429,
+      "latency_p99_ms": 41.030204372655135
+    },
+    {
+      "tool": "crg",
+      "version": "code-review-graph 2.3.5",
+      "repo": "tokio",
+      "language": "rust",
+      "index_ms": 6705.986382003175,
+      "build_ms": 4982.814853006857,
+      "post_ms": 1723.1715289963176,
+      "stats": {
+        "total_nodes": 8676,
+        "total_edges": 67684,
+        "files_count": 776
+      },
+      "db_bytes": 92090368,
+      "units": 8676,
+      "throughput_units_per_s": 1293.7694033026582,
+      "latency_p50_ms": 9.96532849239884,
+      "latency_p90_ms": 10.51028820220381,
+      "latency_p95_ms": 10.538947049644776,
+      "latency_p99_ms": 10.774532608338632
+    },
+    {
+      "tool": "codegraph",
+      "version": "codegraph 0.9.6",
+      "repo": "tokio",
+      "language": "rust",
+      "index_ms": 12272.54040200205,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "files_count": 787,
+        "total_nodes": 12974,
+        "total_edges": 42373
+      },
+      "db_bytes": 27152384,
+      "units": 12974,
+      "throughput_units_per_s": 1057.1568375430663,
+      "latency_p50_ms": 267.7983069952461,
+      "latency_p90_ms": 293.32933409896214,
+      "latency_p95_ms": 302.42419299829635,
+      "latency_p99_ms": 305.68451699553407
+    },
+    {
+      "tool": "soop",
+      "version": "soop (docker sha256:a12600156cea)",
+      "repo": "tokio",
+      "language": "rust",
+      "index_ms": 42164.677324000004,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "entities": 10961,
+        "files": 776
+      },
+      "db_bytes": null,
+      "units": null,
+      "throughput_units_per_s": null,
+      "latency_p50_ms": 3.8420850000002247,
+      "latency_p90_ms": 12.66536380000034,
+      "latency_p95_ms": 12.80913410000212,
+      "latency_p99_ms": 12.921539619999821
+    },
+    {
+      "tool": "semble",
+      "version": "semble (docker sha256:207233e6795b)",
+      "repo": "alamofire",
+      "language": "swift",
+      "index_ms": 5410.879205999663,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "indexed_files": 111,
+        "total_chunks": 1845
+      },
+      "db_bytes": null,
+      "units": 1845,
+      "throughput_units_per_s": 340.97970584045504,
+      "latency_p50_ms": 2.7330869997967966,
+      "latency_p90_ms": 20.26018799369922,
+      "latency_p95_ms": 20.98355306006852,
+      "latency_p99_ms": 24.3377378162404
+    },
+    {
+      "tool": "crg",
+      "version": "code-review-graph 2.3.5",
+      "repo": "alamofire",
+      "language": "swift",
+      "index_ms": 2673.990681010764,
+      "build_ms": 2051.08000501059,
+      "post_ms": 622.9106760001741,
+      "stats": {
+        "total_nodes": 2107,
+        "total_edges": 15477,
+        "files_count": 103
+      },
+      "db_bytes": 25862144,
+      "units": 2107,
+      "throughput_units_per_s": 787.9608612560899,
+      "latency_p50_ms": 2.6565745065454394,
+      "latency_p90_ms": 2.9039579108939506,
+      "latency_p95_ms": 2.952153998921858,
+      "latency_p99_ms": 2.990351600019494
+    },
+    {
+      "tool": "codegraph",
+      "version": "codegraph 0.9.6",
+      "repo": "alamofire",
+      "language": "swift",
+      "index_ms": 5831.496266997419,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "files_count": 113,
+        "total_nodes": 2931,
+        "total_edges": 8372
+      },
+      "db_bytes": 7954432,
+      "units": 2931,
+      "throughput_units_per_s": 502.61542935174396,
+      "latency_p50_ms": 257.1768694979255,
+      "latency_p90_ms": 260.00392290443415,
+      "latency_p95_ms": 262.07234670146136,
+      "latency_p99_ms": 269.2923725474975
+    }
+  ]
+}

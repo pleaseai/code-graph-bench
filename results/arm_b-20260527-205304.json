@@ -67,6 +67,38 @@
       ]
     },
     {
+      "tool": "soop",
+      "version": "soop (docker sha256:a12600156cea)",
+      "repo": "flask",
+      "n_tasks": 2,
+      "anchor_found_rate": 0.0,
+      "mean_anchor_rank": null,
+      "mean_neighbor_recall": 0.0,
+      "mean_score": 0.0,
+      "rows": [
+        {
+          "task_id": "flask-dispatch-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 1,
+          "matched_count": 0,
+          "neighbor_recall": 0,
+          "score": 0
+        },
+        {
+          "task_id": "flask-exception-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 1,
+          "matched_count": 0,
+          "neighbor_recall": 0,
+          "score": 0
+        }
+      ]
+    },
+    {
       "tool": "crg",
       "version": "code-review-graph 2.3.5",
       "repo": "fastapi",
@@ -127,6 +159,38 @@
           "matched_count": 0,
           "neighbor_recall": 0.0,
           "score": 0.0
+        }
+      ]
+    },
+    {
+      "tool": "soop",
+      "version": "soop (docker sha256:a12600156cea)",
+      "repo": "fastapi",
+      "n_tasks": 2,
+      "anchor_found_rate": 0.0,
+      "mean_anchor_rank": null,
+      "mean_neighbor_recall": 0.0,
+      "mean_score": 0.0,
+      "rows": [
+        {
+          "task_id": "fastapi-route-handler-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 1,
+          "matched_count": 0,
+          "neighbor_recall": 0,
+          "score": 0
+        },
+        {
+          "task_id": "fastapi-get-dependant-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 2,
+          "matched_count": 0,
+          "neighbor_recall": 0,
+          "score": 0
         }
       ]
     },
@@ -195,6 +259,38 @@
       ]
     },
     {
+      "tool": "soop",
+      "version": "soop (docker sha256:a12600156cea)",
+      "repo": "httpx",
+      "n_tasks": 2,
+      "anchor_found_rate": 0.0,
+      "mean_anchor_rank": null,
+      "mean_neighbor_recall": 0.0,
+      "mean_score": 0.0,
+      "rows": [
+        {
+          "task_id": "httpx-client-request-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 6,
+          "matched_count": 0,
+          "neighbor_recall": 0,
+          "score": 0
+        },
+        {
+          "task_id": "httpx-async-request-tests",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 1,
+          "matched_count": 0,
+          "neighbor_recall": 0,
+          "score": 0
+        }
+      ]
+    },
+    {
       "tool": "crg",
       "version": "code-review-graph 2.3.5",
       "repo": "express",
@@ -235,6 +331,28 @@
           "matched_count": 0,
           "neighbor_recall": 0.0,
           "score": 0.0
+        }
+      ]
+    },
+    {
+      "tool": "soop",
+      "version": "soop (docker sha256:a12600156cea)",
+      "repo": "express",
+      "n_tasks": 1,
+      "anchor_found_rate": 0.0,
+      "mean_anchor_rank": null,
+      "mean_neighbor_recall": 0.0,
+      "mean_score": 0.0,
+      "rows": [
+        {
+          "task_id": "express-create-application-callees",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 3,
+          "matched_count": 0,
+          "neighbor_recall": 0,
+          "score": 0
         }
       ]
     },
@@ -299,6 +417,38 @@
           "matched_count": 2,
           "neighbor_recall": 1.0,
           "score": 1.0
+        }
+      ]
+    },
+    {
+      "tool": "soop",
+      "version": "soop (docker sha256:a12600156cea)",
+      "repo": "gin",
+      "n_tasks": 2,
+      "anchor_found_rate": 0.0,
+      "mean_anchor_rank": null,
+      "mean_neighbor_recall": 0.0,
+      "mean_score": 0.0,
+      "rows": [
+        {
+          "task_id": "gin-serve-http-callees",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 1,
+          "matched_count": 0,
+          "neighbor_recall": 0,
+          "score": 0
+        },
+        {
+          "task_id": "gin-context-next-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 2,
+          "matched_count": 0,
+          "neighbor_recall": 0,
+          "score": 0
         }
       ]
     }

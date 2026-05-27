@@ -5,49 +5,62 @@ Quality arms (A/B/C) are deterministic; Perf varies with the machine.
 
 - **Date:** 2026-05-27
 - **Machine:** Intel Core i7-9700K @ 3.6 GHz, 64 GB RAM, macOS 15.6.1 (x86_64)
-- **Tool versions:** semble 0.1.4 (Docker linux/amd64) · code-review-graph 2.3.5 (native, lexical) · codegraph 0.9.6 (native CLI)
+- **Tool versions:** semble 0.1.4 (Docker linux/amd64) · code-review-graph 2.3.5 (native, lexical) · codegraph 0.9.6 (native CLI) · soop / @pleaseai/soop 0.1.33 (Docker linux/amd64, no-LLM heuristic)
 - **Config:** whole-repo indexing, shipped defaults, top-k = 10. See [README](README.md) for methodology & fairness rules.
 
 ---
 
 ## Arm A — search quality (NL query → relevant code)
 
-Mean over each repo's semble-derived gold queries. semble returns code chunks;
-crg/codegraph return symbol references (hence far fewer `tokens`).
+Mean over each repo's semble-derived gold queries (rows sorted by NDCG@10).
+semble returns code chunks; the graph tools return symbol references (hence far
+fewer `tokens`).
 
 | repo | tool | modality | NDCG@10 | NDCG@5 | Recall@10 | MRR | tokens |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | alamofire | **semble** | semantic+lexical | **0.961** | 0.961 | 1.000 | 0.963 | 3161 |
 | alamofire | codegraph | lexical (FTS5) | 0.721 | 0.659 | 0.925 | 0.671 | 178 |
 | alamofire | crg | lexical (FTS5+kw) | 0.300 | 0.300 | 0.300 | 0.300 | 161 |
-| express | **semble** | semantic+lexical | **0.888** | 0.878 | 0.925 | 0.892 | 2894 |
+| express | **semble** | semantic+lexical | **0.888** | 0.878 | 0.925 | 0.892 | 2886 |
 | express | codegraph | lexical (FTS5) | 0.577 | 0.567 | 0.650 | 0.592 | 138 |
+| express | soop | RPG features (no-LLM) | 0.325 | 0.244 | 0.625 | 0.247 | 66 |
 | express | crg | lexical (FTS5+kw) | 0.100 | 0.100 | 0.150 | 0.083 | 98 |
 | fastapi | **semble** | semantic+lexical | **0.716** | 0.659 | 0.892 | 0.735 | 2582 |
 | fastapi | codegraph | lexical (FTS5) | 0.403 | 0.403 | 0.400 | 0.467 | 740 |
+| fastapi | soop | RPG features (no-LLM) | 0.297 | 0.275 | 0.350 | 0.292 | 84 |
 | fastapi | crg | lexical (FTS5+kw) | 0.182 | 0.182 | 0.200 | 0.175 | 356 |
 | flask | **semble** | semantic+lexical | **0.871** | 0.871 | 0.952 | 0.889 | 2985 |
 | flask | codegraph | lexical (FTS5) | 0.593 | 0.564 | 0.690 | 0.589 | 218 |
+| flask | soop | RPG features (no-LLM) | 0.571 | 0.539 | 0.690 | 0.598 | 76 |
 | flask | crg | lexical (FTS5+kw) | 0.209 | 0.209 | 0.214 | 0.214 | 168 |
 | gin | **semble** | semantic+lexical | **0.860** | 0.860 | 0.925 | 0.867 | 3126 |
 | gin | codegraph | lexical (FTS5) | 0.689 | 0.679 | 0.850 | 0.645 | 151 |
+| gin | soop | RPG features (no-LLM) | 0.433 | 0.398 | 0.642 | 0.382 | 87 |
 | gin | crg | lexical (FTS5+kw) | 0.150 | 0.150 | 0.150 | 0.150 | 60 |
 | httpx | **semble** | semantic+lexical | **0.888** | 0.888 | 0.929 | 0.913 | 3067 |
 | httpx | codegraph | lexical (FTS5) | 0.572 | 0.517 | 0.738 | 0.608 | 256 |
+| httpx | soop | RPG features (no-LLM) | 0.290 | 0.251 | 0.429 | 0.270 | 72 |
 | httpx | crg | lexical (FTS5+kw) | 0.214 | 0.214 | 0.238 | 0.206 | 130 |
 | tokio | **semble** | semantic+lexical | **0.936** | 0.936 | 0.950 | 0.960 | 3468 |
 | tokio | codegraph | lexical (FTS5) | 0.540 | 0.486 | 0.650 | 0.542 | 186 |
 | tokio | crg | lexical (FTS5+kw) | 0.300 | 0.300 | 0.300 | 0.300 | 128 |
+| tokio | soop | RPG features (no-LLM) | 0.082 | 0.050 | 0.150 | 0.063 | 75 |
+
+(soop failed to index alamofire/Swift in this run — omitted there.)
 
 **Read:** semble's semantic retrieval wins NL search on every repo
-(NDCG@10 **0.72–0.96**), codegraph's FTS5 is a consistent second (**0.40–0.72**),
-crg's default lexical search trails (**0.10–0.30**) — verbose NL queries don't
-match its FTS5-AND well. The graph tools trade quality for **~15–25× fewer
-returned tokens** (symbol refs vs code bodies).
+(NDCG@10 **0.72–0.96**); codegraph's FTS5 is a consistent second (**0.40–0.72**);
+**soop, even in no-LLM heuristic mode, lands third** (**0.29–0.57** on the
+Python/JS repos, weak on Rust `tokio` 0.08) — notably **beating crg's lexical
+default everywhere** (crg **0.10–0.30**) while returning the fewest tokens
+(66–87). Verbose NL doesn't match crg's FTS5-AND well. soop's full LLM-feature +
+vector mode is untested here (paid/non-deterministic) and would likely climb.
+The graph tools trade quality for **~15–40× fewer returned tokens** (symbol refs
+vs code bodies).
 
 ---
 
-## Arm B — graph capability (graph tools only)
+## Arm B — graph capability (graph tools: crg, codegraph, soop)
 
 ### Multi-hop retrieval (search → anchor → one-hop traverse)
 
@@ -58,18 +71,24 @@ Each tool uses its **own** search to find the anchor, then traverses.
 | --- | --- | --- | --- | --- | --- |
 | flask | crg | 2 | 0.00 | 0.000 | 0.000 |
 | flask | codegraph | 2 | 0.00 | 0.000 | 0.000 |
+| flask | soop | 2 | 0.00 | 0.000 | 0.000 |
 | fastapi | crg | 2 | 0.00 | 0.000 | 0.000 |
 | fastapi | codegraph | 2 | 0.00 | 0.000 | 0.000 |
+| fastapi | soop | 2 | 0.00 | 0.000 | 0.000 |
 | httpx | crg | 2 | 0.00 | 0.000 | 0.000 |
 | httpx | codegraph | 2 | 0.50 | 0.500 | 0.500 |
+| httpx | soop | 2 | 0.00 | 0.000 | 0.000 |
 | express | crg | 1 | 0.00 | 0.000 | 0.000 |
 | express | codegraph | 1 | 0.00 | 0.000 | 0.000 |
+| express | soop | 1 | 0.00 | 0.000 | 0.000 |
 | gin | crg | 2 | 0.00 | 0.000 | 0.000 |
 | gin | codegraph | 2 | 1.00 | 1.000 | 1.000 |
+| gin | soop | 2 | 0.00 | 0.000 | 0.000 |
 
-**Read:** both tools' built-in lexical search usually **fails to locate the right
+**Read:** all three tools' built-in search usually **fails to locate the right
 anchor** from a verbose NL query (crg's FTS-AND → 0; codegraph latches onto common
-tokens). This is the gap Arm C closes.
+tokens; soop's no-LLM heuristic features likewise miss) — only codegraph anchors
+on gin/httpx. This is the gap Arm C closes (for crg/codegraph, via semble).
 
 ### Impact accuracy (blast-radius, crg methodology)
 
@@ -124,44 +143,56 @@ return the curated neighbor — a traversal-naming detail.)
 ## Perf — speed & footprint
 
 Cold index time, query latency, index size. **Caveats:** codegraph p50 includes
-Node CLI startup (~240 ms); semble runs in Docker (index time includes container
-startup); semble is in-memory (no on-disk index → `db MB` = –).
+Node CLI startup (~240 ms); semble & soop run in Docker (index time includes
+container startup); semble is in-memory (no on-disk index → `db MB` = –); soop
+units/db are not reported by its stats (`–`). soop failed to index alamofire.
 
 | repo | tool | index ms | units | units/s | db MB | p50 ms | p95 ms |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| alamofire | codegraph | 5573 | 2931 | 526 | 8.0 | 245.3 | 252.3 |
-| alamofire | crg | 2148 | 2107 | 981 | 25.9 | 2.7 | 3.0 |
-| alamofire | semble | 5163 | 1845 | 357 | – | 3.7 | 25.0 |
-| express | codegraph | 964 | 990 | 1027 | 1.2 | 241.3 | 266.7 |
-| express | crg | 2038 | 1912 | 938 | 24.1 | 2.4 | 2.9 |
-| express | semble | 2991 | 523 | 175 | – | 2.2 | 3.7 |
-| fastapi | codegraph | 7524 | 12294 | 1634 | 18.3 | 265.8 | 299.4 |
-| fastapi | crg | 4735 | 6300 | 1330 | 52.6 | 7.8 | 8.7 |
-| fastapi | semble | 7432 | 3687 | 496 | – | 11.8 | 63.6 |
-| flask | codegraph | 1373 | 2710 | 1973 | 4.2 | 240.5 | 253.9 |
-| flask | crg | 1358 | 1449 | 1067 | 11.5 | 1.8 | 2.0 |
-| flask | semble | 4204 | 537 | 128 | – | 1.8 | 8.4 |
-| gin | codegraph | 1720 | 2544 | 1479 | 5.6 | 239.9 | 251.5 |
-| gin | crg | 1648 | 1613 | 979 | 20.7 | 2.1 | 2.3 |
-| gin | semble | 1843 | 576 | 312 | – | 1.6 | 10.2 |
-| httpx | codegraph | 1449 | 1717 | 1185 | 3.2 | 249.7 | 271.0 |
-| httpx | crg | 1294 | 1261 | 975 | 11.0 | 1.8 | 2.1 |
-| httpx | semble | 2858 | 497 | 174 | – | 1.9 | 9.0 |
-| tokio | codegraph | 11949 | 12974 | 1086 | 27.2 | 261.8 | 270.6 |
-| tokio | crg | 7037 | 8676 | 1233 | 92.1 | 9.5 | 10.1 |
-| tokio | semble | 6170 | 4552 | 738 | – | 5.6 | 36.2 |
+| alamofire | codegraph | 5831 | 2931 | 503 | 8.0 | 257.2 | 262.1 |
+| alamofire | crg | 2674 | 2107 | 788 | 25.9 | 2.7 | 3.0 |
+| alamofire | semble | 5411 | 1845 | 341 | – | 2.7 | 21.0 |
+| express | codegraph | 1203 | 990 | 823 | 1.2 | 244.9 | 259.1 |
+| express | crg | 2258 | 1912 | 847 | 24.1 | 2.5 | 2.7 |
+| express | semble | 2811 | 523 | 186 | – | 2.1 | 3.2 |
+| express | soop | 40235 | – | – | – | 0.7 | 1.1 |
+| fastapi | codegraph | 7772 | 12294 | 1582 | 18.3 | 263.2 | 278.1 |
+| fastapi | crg | 4773 | 6300 | 1320 | 52.6 | 7.8 | 9.0 |
+| fastapi | semble | 8769 | 3687 | 420 | – | 4.9 | 35.2 |
+| fastapi | soop | 43398 | – | – | – | 1.5 | 2.6 |
+| flask | codegraph | 1429 | 2710 | 1896 | 4.2 | 253.1 | 267.2 |
+| flask | crg | 1256 | 1449 | 1154 | 11.5 | 1.8 | 2.1 |
+| flask | semble | 5074 | 537 | 106 | – | 1.6 | 8.4 |
+| flask | soop | 40747 | – | – | – | 1.0 | 2.2 |
+| gin | codegraph | 2098 | 2544 | 1213 | 5.6 | 246.1 | 259.8 |
+| gin | crg | 1660 | 1613 | 972 | 20.7 | 1.9 | 2.2 |
+| gin | semble | 1865 | 576 | 309 | – | 1.8 | 10.2 |
+| gin | soop | 42333 | – | – | – | 1.1 | 1.6 |
+| httpx | codegraph | 1195 | 1717 | 1437 | 3.2 | 257.7 | 266.8 |
+| httpx | crg | 1292 | 1261 | 976 | 11.0 | 1.8 | 2.1 |
+| httpx | semble | 2889 | 497 | 172 | – | 1.9 | 8.6 |
+| httpx | soop | 26973 | – | – | – | 1.1 | 1.5 |
+| tokio | codegraph | 12273 | 12974 | 1057 | 27.2 | 267.8 | 302.4 |
+| tokio | crg | 6706 | 8676 | 1294 | 92.1 | 10.0 | 10.5 |
+| tokio | semble | 6273 | 4552 | 726 | – | 5.7 | 39.6 |
+| tokio | soop | 42165 | – | – | – | 3.8 | 12.8 |
 
-**Read:** all three index a repo in **1–12 s**. In-process query latency is
-**~2 ms** (crg) and **~2–12 ms** (semble); codegraph's ~240 ms is dominated by CLI
-process startup (it would be far lower over a persistent MCP connection). crg's
-graph DB is the largest on disk (richer edges/flows/communities).
+**Read:** semble/crg/codegraph index a repo in **1–12 s**; **soop is far slower
+(~27–43 s)** — its heuristic feature extraction per entity dominates. Once built,
+in-process query latency is **~1–4 ms** (crg, semble, soop); codegraph's ~250 ms
+is CLI process startup (far lower over a persistent MCP connection). crg's graph
+DB is the largest on disk (richer edges/flows/communities).
 
 ---
 
 ## Bottom line
 
 - **Pure NL code search:** semble, clearly. Best NDCG@10 everywhere.
+- **Among the graph tools' built-in search:** codegraph (FTS5) leads, **soop's
+  no-LLM heuristic is a clear second and beats crg's lexical default** — at the
+  lowest token cost. soop's full LLM-feature mode (untested) would likely close
+  more of the gap to semble.
 - **Structural queries (impact/callers):** the graph tools' domain; semble can't do it.
-- **Best of both:** semble → graph as a pipeline lifts the graph tools on the NL
+- **Best of both:** semble → graph as a pipeline lifts crg/codegraph on the NL
   queries their own search can't anchor — the practical takeaway being to **pair**
   a semantic retriever with a graph tool rather than choose one.

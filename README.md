@@ -1,6 +1,6 @@
 # code-graph-bench
 
-An independent, **apples-to-apples** benchmark for three code-intelligence tools
+An independent, **apples-to-apples** benchmark for four code-intelligence tools
 built to cut an AI agent's code-exploration token cost:
 
 | Tool | Lang | What it is | Search modality |
@@ -8,6 +8,13 @@ built to cut an AI agent's code-exploration token cost:
 | [**semble**](https://github.com/MinishLab/semble) | Python | Code **search** library (chunks) | semantic + lexical (static embeddings + BM25 + RRF) |
 | [**code-review-graph**](https://github.com/tirth8205/code-review-graph) (crg) | Python | Code **graph** for review / blast-radius | lexical (FTS5 + keyword) by default |
 | [**codegraph**](https://github.com/colbymchenry/codegraph) | TypeScript | Code **knowledge graph** for agents | lexical (FTS5) |
+| [**soop**](https://github.com/pleaseai/soop) (RPG) | TypeScript | Repository Planning **Graph** (search + dep graph + generation) | RPG features (LLM or heuristic) + optional vector |
+
+soop is itself a graph-for-agents tool (it also does semantic search, a dependency
+graph, and — uniquely — repo generation), so it participates as both a retriever
+(Arm A) and a graph (Arm B). It is benchmarked in its free/deterministic **no-LLM
+heuristic** mode here; its LLM-feature + vector mode is a paid/non-deterministic
+extension (roadmap).
 
 Each project benchmarks itself, its own way, on its own data — so the headline
 numbers (semble NDCG@10 0.854 · crg 38–528× token reduction & 100% impact recall ·
@@ -23,8 +30,8 @@ them tests whether **semble + a graph tool** beats either alone:
 
 | Arm | Tools | Question | Cost |
 |---|---|---|---|
-| **A. Search** | semble, crg, codegraph | NL query → relevant code? | free / deterministic |
-| **B. Graph** | crg, codegraph | blast-radius & multi-hop accuracy? | free / deterministic |
+| **A. Search** | semble, crg, codegraph, soop | NL query → relevant code? | free / deterministic |
+| **B. Graph** | crg, codegraph, soop | blast-radius & multi-hop accuracy? | free / deterministic |
 | **C. Combined** | semble→crg, semble→codegraph | does semble as anchor-finder help the graph tools? | free / deterministic |
 | **D. Agent E2E** *(opt-in)* | all + no-tool | real agent tokens/cost/time/tool-calls? | **paid** (Claude API) |
 | **Perf** *(cross-cutting)* | all | index time, query latency, footprint | free |
@@ -32,15 +39,15 @@ them tests whether **semble + a graph tool** beats either alone:
 ## Headline findings (this corpus)
 
 - **Search (Arm A).** semble's semantic retrieval dominates NL queries
-  (NDCG@10 **0.72–0.94** across 7 repos); codegraph's FTS5 is a solid second
-  (**0.40–0.69**); crg's default lexical search is weakest on verbose NL
-  (**0.15–0.30**). The graph tools return **far fewer tokens** per query
-  (60–740 vs semble's ~2,500–3,500) because they return symbol references, not
-  code bodies.
+  (NDCG@10 **0.72–0.96** across 7 repos); codegraph's FTS5 is a solid second
+  (**0.40–0.72**); **soop's no-LLM heuristic is third (0.29–0.57), beating crg's
+  lexical default everywhere** (crg **0.10–0.30**) at the lowest token cost.
+  The graph tools return **far fewer tokens** per query (60–740 vs semble's
+  ~2,500–3,500) because they return symbol references, not code bodies.
 - **Graph (Arm B).** crg reproduces its **~100% impact recall** claim
-  (blast-radius). But both graph tools' *built-in* search fails to locate the
+  (blast-radius). But all three graph tools' *built-in* search fails to locate the
   right **anchor** from a verbose NL query (crg's FTS-AND → 0 hits; codegraph
-  latches onto common tokens like "Flask").
+  latches onto common tokens like "Flask"; soop's no-LLM features likewise miss).
 - **Combined (Arm C) — the point of this benchmark.** Using semble to localize
   the query, then letting the graph tool resolve the symbol there and traverse,
   **fixes the anchor problem where it was broken** (flask & express: anchor-found
@@ -89,6 +96,11 @@ mode**, not tuned. Because two tools have x86_64-macOS wheel gaps, runtimes diff
   latency is measured as **CLI wall time, so it includes Node startup** (~240 ms)
   — unlike semble/crg's in-process latency. Flagged in Perf; quality metrics
   unaffected.
+- **soop** → **Docker (linux/amd64), under Node.** soop's native tree-sitter
+  backend has no x86_64-macOS build, and its semantic cache needs better-sqlite3
+  (unsupported by Bun) — so the worker runs under Node in a container. Benchmarked
+  as the published `@pleaseai/soop` in **no-LLM heuristic** mode (its no-LLM floor;
+  LLM-feature + vector mode is the paid/non-deterministic roadmap variant).
 
 Every tool is reached through one uniform adapter interface
 ([`bench/adapters/base.py`](bench/adapters/base.py)) that returns normalized
@@ -147,6 +159,11 @@ reference run in `results/` was produced on x86_64 macOS 15.
   all-MiniLM-L6-v2) but that needs torch, which has no x86_64-mac/py3.13 wheel.
   A `cgbench-crg` Docker image (linux/amd64, embeddings) would let crg's NL
   retrieval compete fairly — currently crg is reported in its lexical default.
+- **soop LLM-feature mode.** soop is run in no-LLM heuristic mode (free,
+  deterministic). Its real strength — the LLM-generated feature/intent layer plus
+  vector search — is a paid, non-deterministic mode not exercised here; expect
+  soop's Arm A numbers to climb meaningfully with it enabled. soop also isn't an
+  Arm C target (it's its own retriever+graph; a `semble→soop` arm is possible).
 - **Multi-hop sample size** is small (1–3 tasks/repo); treat Arm B/C as directional.
 - **Perf** does not yet capture peak RSS or incremental-update time.
 - **codegraph latency** includes Node process startup (CLI), not in-process.
