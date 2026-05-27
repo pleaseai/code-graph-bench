@@ -1,0 +1,155 @@
+{
+  "_comment": "Pinned snapshots. retrieval.sha (semble) and graph.sha (crg) differ per repo; clone each SHA separately under checkouts/<repo>@<sha>/.",
+  "repos": [
+    {
+      "name": "flask",
+      "language": "python",
+      "url": "https://github.com/pallets/flask",
+      "tier": "core",
+      "retrieval": {
+        "sha": "258d68b6ff5e2244386540f48b48bab90d6ab827",
+        "root": "src/flask"
+      },
+      "graph": {
+        "sha": "a29f88ce6f2f9843bd6fcbbfce1390a2071965d6",
+        "test_commits": [
+          {
+            "sha": "fbb6f0bc4c60a0bada0e03c3480d0ccf30a3c1df",
+            "description": "all teardown callbacks are called despite errors",
+            "changed_files": 10
+          },
+          {
+            "sha": "a29f88ce6f2f9843bd6fcbbfce1390a2071965d6",
+            "description": "document that headers must be set before streaming",
+            "changed_files": 4
+          }
+        ]
+      }
+    },
+    {
+      "name": "fastapi",
+      "language": "python",
+      "url": "https://github.com/fastapi/fastapi",
+      "tier": "core",
+      "retrieval": {
+        "sha": "c3c9dd6b1a08bcda766e7b43eafe72c4c5e9e193",
+        "root": "fastapi"
+      },
+      "graph": {
+        "sha": "0227991a01e61bf5cdd93cc00e9e243f52b47a4a",
+        "test_commits": [
+          {
+            "sha": "fa3588c38c7473aca7536b12d686102de4b0f407",
+            "description": "Fix typo for client_secret in OAuth2 form docstrings",
+            "changed_files": 1
+          },
+          {
+            "sha": "0227991a01e61bf5cdd93cc00e9e243f52b47a4a",
+            "description": "Exclude spam comments from statistics in scripts/people.py",
+            "changed_files": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "httpx",
+      "language": "python",
+      "url": "https://github.com/encode/httpx",
+      "tier": "core",
+      "retrieval": {
+        "sha": "b5addb64f0161ff6bfe94c124ef76f6a1fba5254",
+        "root": "httpx"
+      },
+      "graph": {
+        "sha": "b55d4635701d9dc22928ee647880c76b078ba3f2",
+        "test_commits": [
+          {
+            "sha": "ae1b9f66238f75ced3ced5e4485408435de10768",
+            "description": "Expose FunctionAuth in __all__",
+            "changed_files": 3
+          },
+          {
+            "sha": "b55d4635701d9dc22928ee647880c76b078ba3f2",
+            "description": "Upgrade Python type checker mypy",
+            "changed_files": 4
+          }
+        ]
+      }
+    },
+    {
+      "name": "express",
+      "language": "javascript",
+      "url": "https://github.com/expressjs/express",
+      "tier": "core",
+      "retrieval": {
+        "sha": "8e022edc9185f540a3fcecaf5e56b850d919cdac",
+        "root": "lib"
+      },
+      "graph": {
+        "sha": "b4ab7d65d7724d9309b6faaaf82ad492da2a6d35",
+        "test_commits": [
+          {
+            "sha": "925a1dff1e42f1b393c977b8b77757fcf633e09f",
+            "description": "fix: bump qs minimum to ^6.14.2 for CVE-2026-2391",
+            "changed_files": 1
+          },
+          {
+            "sha": "b4ab7d65d7724d9309b6faaaf82ad492da2a6d35",
+            "description": "test: include edge case tests for res.type()",
+            "changed_files": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "gin",
+      "language": "go",
+      "url": "https://github.com/gin-gonic/gin",
+      "tier": "core",
+      "retrieval": {
+        "sha": "d3ffc9985281dcf4d3bef604cce4e662b1a327a6",
+        "root": null
+      },
+      "graph": {
+        "sha": "5c00df8afadd06cc5be530dde00fe6d9fa4a2e4a",
+        "test_commits": [
+          {
+            "sha": "052d1a79aafe3f04078a2716f8e77d4340308383",
+            "description": "feat(render): add PDF renderer and tests",
+            "changed_files": 5
+          },
+          {
+            "sha": "472d086af2acd924cb4b9d7be0525f7d790f69bc",
+            "description": "fix(tree): panic in findCaseInsensitivePathRec with RedirectFixedPath",
+            "changed_files": 2
+          },
+          {
+            "sha": "5c00df8afadd06cc5be530dde00fe6d9fa4a2e4a",
+            "description": "fix(render): write content length in Data.Render",
+            "changed_files": 2
+          }
+        ]
+      }
+    },
+    {
+      "name": "tokio",
+      "language": "rust",
+      "url": "https://github.com/tokio-rs/tokio",
+      "tier": "ext",
+      "retrieval": {
+        "sha": "5db10f538b683fe88d699dfd11be31d193db011c",
+        "root": "tokio/src"
+      }
+    },
+    {
+      "name": "alamofire",
+      "language": "swift",
+      "url": "https://github.com/Alamofire/Alamofire",
+      "tier": "ext",
+      "retrieval": {
+        "sha": "e938f8c66708e7352fc7e3512647fa54255b267a",
+        "root": "Source"
+      }
+    }
+  ]
+}

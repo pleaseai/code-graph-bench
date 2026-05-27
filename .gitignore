@@ -1,0 +1,27 @@
+# Cloned repo snapshots (re-fetchable via `cgbench fetch`)
+/checkouts/
+
+# Scratch graph DBs written during runs
+/.scratch/
+
+# Isolated tool venvs
+/.venv-semble/
+/.venv-crg/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+dist/
+build/
+
+# Tool indexes that may leak into cwd
+.semble/
+.codegraph/
+.code-review-graph/
+
+# Benchmark run artifacts kept out of git except curated summaries
+/results/raw/
