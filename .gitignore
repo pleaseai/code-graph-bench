@@ -25,3 +25,6 @@ build/
 
 # Benchmark run artifacts kept out of git except curated summaries
 /results/raw/
+
+# soop RPG cache
+.rpg/

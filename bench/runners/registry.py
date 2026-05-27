@@ -5,15 +5,18 @@ from __future__ import annotations
 from bench.adapters.codegraph_adapter import CodegraphAdapter
 from bench.adapters.crg_adapter import CrgAdapter
 from bench.adapters.semble_adapter import SembleAdapter
+from bench.adapters.soop_adapter import SoopAdapter
 
 ADAPTERS = {
     "semble": SembleAdapter,
     "crg": CrgAdapter,
     "codegraph": CodegraphAdapter,
+    "soop": SoopAdapter,
 }
 
-SEARCH_TOOLS = ["semble", "crg", "codegraph"]
-GRAPH_TOOLS = ["crg", "codegraph"]
+# soop is both a retriever and a graph, so it appears in both lists.
+SEARCH_TOOLS = ["semble", "crg", "codegraph", "soop"]
+GRAPH_TOOLS = ["crg", "codegraph", "soop"]
 
 
 def get_adapter(name: str):

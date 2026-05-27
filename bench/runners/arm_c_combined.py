@@ -78,6 +78,8 @@ def run_arm_c(repos: list[str] | None = None, k: int = 10) -> dict:
 
         for tool in GRAPH_TOOLS:
             adapter = get_adapter(tool)
+            if not hasattr(adapter, "combined"):
+                continue  # e.g. soop is its own retriever+graph, not a semble→graph target
             console.print(f"[cyan]Arm C[/] {tool} baseline vs combined on {spec.name}…")
             try:
                 baseline = adapter.multihop(spec.name, repo_path, list(cfg.multi_hop_tasks))
