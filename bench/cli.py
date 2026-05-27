@@ -74,6 +74,9 @@ def run(
     repo: list[str] = typer.Option(None, "--repo", "-r"),
     tool: list[str] = typer.Option(None, "--tool", "-t", help="semble | crg | codegraph"),
     k: int = typer.Option(10, "--k", help="top-k for retrieval."),
+    confirm: bool = typer.Option(False, "--confirm", help="Arm D: confirm paid Claude run."),
+    budget: float = typer.Option(0.0, "--budget", help="Arm D: max USD per run."),
+    model: str = typer.Option("sonnet", "--model", help="Arm D: agent model."),
 ) -> None:
     """Run a benchmark arm."""
     arm = arm.lower()
@@ -96,7 +99,8 @@ def run(
     elif arm == "d":
         from bench.runners.arm_d_agent import run_arm_d
 
-        run_arm_d(repos=repo or None, tools=tool or None)
+        run_arm_d(repos=repo or None, tools=tool or None,
+                  confirm=confirm, budget=budget, model=model)
     else:
         raise typer.BadParameter("arm must be one of: a, b, c, d, perf")
 

@@ -57,7 +57,42 @@ def _perf_md(data: dict) -> str:
     return f"## Perf — speed & footprint ({data['date']})\n\n{body}\n"
 
 
-RENDERERS = {"a": ("arm_a", _arm_a_md), "perf": ("perf", _perf_md)}
+def _arm_b_md(data: dict) -> str:
+    rows = [[r["repo"], r["tool"], str(r.get("n_tasks", 0)),
+             f'{r.get("anchor_found_rate", 0):.2f}',
+             f'{r.get("mean_neighbor_recall", 0):.3f}', f'{r.get("mean_score", 0):.3f}']
+            for r in data.get("multihop", [])]
+    mh = _md_table(["repo", "tool", "tasks", "anchor found", "neighbor recall", "score"], rows)
+    irows = [[r["repo"], r["tool"], r["sha"][:8], str(r["predicted"]), str(r["actual"]),
+              f'{r["precision"]:.2f}', f'{r["recall"]:.2f}', f'{r["f1"]:.2f}']
+             for r in data.get("impact", [])]
+    parts = [f"## Arm B — multi-hop retrieval ({data['date']})\n\n{mh}\n"]
+    if irows:
+        imp = _md_table(["repo", "tool", "commit", "predicted", "actual", "P", "R", "F1"], irows)
+        parts.append(f"### Arm B — impact accuracy (crg methodology)\n\n{imp}\n")
+    return "\n".join(parts)
+
+
+def _arm_c_md(data: dict) -> str:
+    rows = []
+    for r in data["results"]:
+        b, c = r["baseline"], r["combined"]
+        rows.append([
+            r["repo"], r["tool"],
+            f'{b["anchor_found_rate"]:.2f} → {c["anchor_found_rate"]:.2f}',
+            f'{b["mean_recall"]:.3f} → {c["mean_recall"]:.3f}',
+            f'{r["delta_anchor_found"]:+.2f}', f'{r["delta_recall"]:+.3f}',
+        ])
+    body = _md_table(
+        ["repo", "graph tool", "anchor found B→C", "neighbor recall B→C",
+         "Δ found", "Δ recall"], rows)
+    return f"## Arm C — combined (semble anchor → graph traverse) ({data['date']})\n\n{body}\n"
+
+
+RENDERERS = {
+    "a": ("arm_a", _arm_a_md), "b": ("arm_b", _arm_b_md),
+    "c": ("arm_c", _arm_c_md), "perf": ("perf", _perf_md),
+}
 
 
 def render(arm: str | None = None) -> None:

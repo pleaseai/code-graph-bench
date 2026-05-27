@@ -1,0 +1,429 @@
+{
+  "arm": "b_graph",
+  "date": "2026-05-27",
+  "multihop": [
+    {
+      "tool": "crg",
+      "version": "code-review-graph 2.3.5",
+      "repo": "flask",
+      "n_tasks": 2,
+      "anchor_found_rate": 0.0,
+      "mean_anchor_rank": null,
+      "mean_neighbor_recall": 0.0,
+      "mean_score": 0.0,
+      "rows": [
+        {
+          "task_id": "flask-dispatch-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 1,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0
+        },
+        {
+          "task_id": "flask-exception-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 1,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "tool": "codegraph",
+      "version": "codegraph 0.9.6",
+      "repo": "flask",
+      "n_tasks": 2,
+      "anchor_found_rate": 0.0,
+      "mean_anchor_rank": null,
+      "mean_neighbor_recall": 0.0,
+      "mean_score": 0.0,
+      "rows": [
+        {
+          "task_id": "flask-dispatch-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 1,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0
+        },
+        {
+          "task_id": "flask-exception-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 1,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "tool": "crg",
+      "version": "code-review-graph 2.3.5",
+      "repo": "fastapi",
+      "n_tasks": 2,
+      "anchor_found_rate": 0.0,
+      "mean_anchor_rank": null,
+      "mean_neighbor_recall": 0.0,
+      "mean_score": 0.0,
+      "rows": [
+        {
+          "task_id": "fastapi-route-handler-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 1,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0
+        },
+        {
+          "task_id": "fastapi-get-dependant-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 2,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "tool": "codegraph",
+      "version": "codegraph 0.9.6",
+      "repo": "fastapi",
+      "n_tasks": 2,
+      "anchor_found_rate": 0.0,
+      "mean_anchor_rank": null,
+      "mean_neighbor_recall": 0.0,
+      "mean_score": 0.0,
+      "rows": [
+        {
+          "task_id": "fastapi-route-handler-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 1,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0
+        },
+        {
+          "task_id": "fastapi-get-dependant-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 2,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "tool": "crg",
+      "version": "code-review-graph 2.3.5",
+      "repo": "httpx",
+      "n_tasks": 2,
+      "anchor_found_rate": 0.0,
+      "mean_anchor_rank": null,
+      "mean_neighbor_recall": 0.0,
+      "mean_score": 0.0,
+      "rows": [
+        {
+          "task_id": "httpx-client-request-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 6,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0
+        },
+        {
+          "task_id": "httpx-async-request-tests",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 1,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "tool": "codegraph",
+      "version": "codegraph 0.9.6",
+      "repo": "httpx",
+      "n_tasks": 2,
+      "anchor_found_rate": 0.5,
+      "mean_anchor_rank": 2.0,
+      "mean_neighbor_recall": 0.5,
+      "mean_score": 0.5,
+      "rows": [
+        {
+          "task_id": "httpx-client-request-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 6,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0
+        },
+        {
+          "task_id": "httpx-async-request-tests",
+          "anchor_found": true,
+          "anchor_rank": 2,
+          "neighbor_count": 9,
+          "expected_count": 1,
+          "matched_count": 1,
+          "neighbor_recall": 1.0,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "tool": "crg",
+      "version": "code-review-graph 2.3.5",
+      "repo": "express",
+      "n_tasks": 1,
+      "anchor_found_rate": 0.0,
+      "mean_anchor_rank": null,
+      "mean_neighbor_recall": 0.0,
+      "mean_score": 0.0,
+      "rows": [
+        {
+          "task_id": "express-create-application-callees",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 3,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "tool": "codegraph",
+      "version": "codegraph 0.9.6",
+      "repo": "express",
+      "n_tasks": 1,
+      "anchor_found_rate": 0.0,
+      "mean_anchor_rank": null,
+      "mean_neighbor_recall": 0.0,
+      "mean_score": 0.0,
+      "rows": [
+        {
+          "task_id": "express-create-application-callees",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 3,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "tool": "crg",
+      "version": "code-review-graph 2.3.5",
+      "repo": "gin",
+      "n_tasks": 2,
+      "anchor_found_rate": 0.0,
+      "mean_anchor_rank": null,
+      "mean_neighbor_recall": 0.0,
+      "mean_score": 0.0,
+      "rows": [
+        {
+          "task_id": "gin-serve-http-callees",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 1,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0
+        },
+        {
+          "task_id": "gin-context-next-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 2,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "tool": "codegraph",
+      "version": "codegraph 0.9.6",
+      "repo": "gin",
+      "n_tasks": 2,
+      "anchor_found_rate": 1.0,
+      "mean_anchor_rank": 2.0,
+      "mean_neighbor_recall": 1.0,
+      "mean_score": 1.0,
+      "rows": [
+        {
+          "task_id": "gin-serve-http-callees",
+          "anchor_found": true,
+          "anchor_rank": 4,
+          "neighbor_count": 5,
+          "expected_count": 1,
+          "matched_count": 1,
+          "neighbor_recall": 1.0,
+          "score": 1.0
+        },
+        {
+          "task_id": "gin-context-next-callers",
+          "anchor_found": true,
+          "anchor_rank": 0,
+          "neighbor_count": 20,
+          "expected_count": 2,
+          "matched_count": 2,
+          "neighbor_recall": 1.0,
+          "score": 1.0
+        }
+      ]
+    }
+  ],
+  "impact": [
+    {
+      "tool": "crg",
+      "repo": "flask",
+      "sha": "fbb6f0bc4c60a0bada0e03c3480d0ccf30a3c1df",
+      "predicted": 27,
+      "actual": 10,
+      "tp": 10,
+      "precision": 0.37037037037037035,
+      "recall": 1.0,
+      "f1": 0.5405405405405406
+    },
+    {
+      "tool": "crg",
+      "repo": "flask",
+      "sha": "a29f88ce6f2f9843bd6fcbbfce1390a2071965d6",
+      "predicted": 4,
+      "actual": 4,
+      "tp": 4,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    {
+      "tool": "crg",
+      "repo": "fastapi",
+      "sha": "fa3588c38c7473aca7536b12d686102de4b0f407",
+      "predicted": 1,
+      "actual": 2,
+      "tp": 1,
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666
+    },
+    {
+      "tool": "crg",
+      "repo": "fastapi",
+      "sha": "0227991a01e61bf5cdd93cc00e9e243f52b47a4a",
+      "predicted": 1,
+      "actual": 1,
+      "tp": 1,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    {
+      "tool": "crg",
+      "repo": "httpx",
+      "sha": "ae1b9f66238f75ced3ced5e4485408435de10768",
+      "predicted": 3,
+      "actual": 35,
+      "tp": 3,
+      "precision": 1.0,
+      "recall": 0.08571428571428572,
+      "f1": 0.15789473684210528
+    },
+    {
+      "tool": "crg",
+      "repo": "httpx",
+      "sha": "b55d4635701d9dc22928ee647880c76b078ba3f2",
+      "predicted": 4,
+      "actual": 4,
+      "tp": 4,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    {
+      "tool": "crg",
+      "repo": "express",
+      "sha": "925a1dff1e42f1b393c977b8b77757fcf633e09f",
+      "predicted": 2,
+      "actual": 1,
+      "tp": 1,
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1": 0.6666666666666666
+    },
+    {
+      "tool": "crg",
+      "repo": "express",
+      "sha": "b4ab7d65d7724d9309b6faaaf82ad492da2a6d35",
+      "predicted": 1,
+      "actual": 1,
+      "tp": 1,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    {
+      "tool": "crg",
+      "repo": "gin",
+      "sha": "052d1a79aafe3f04078a2716f8e77d4340308383",
+      "predicted": 10,
+      "actual": 5,
+      "tp": 5,
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1": 0.6666666666666666
+    },
+    {
+      "tool": "crg",
+      "repo": "gin",
+      "sha": "472d086af2acd924cb4b9d7be0525f7d790f69bc",
+      "predicted": 5,
+      "actual": 2,
+      "tp": 2,
+      "precision": 0.4,
+      "recall": 1.0,
+      "f1": 0.5714285714285715
+    },
+    {
+      "tool": "crg",
+      "repo": "gin",
+      "sha": "5c00df8afadd06cc5be530dde00fe6d9fa4a2e4a",
+      "predicted": 2,
+      "actual": 2,
+      "tp": 2,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  ]
+}
