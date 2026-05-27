@@ -1,0 +1,29 @@
+bench/adapters/crg_adapter.py
+  s_8b936c5766eadb::t_abc03ededbc8fa 100-118
+bench/adapters/codegraph_adapter.py
+  s_8b936c5766eadb::t_d531c5b7ca4595 95-96,98-101,121-129,131-132
+  s_8b936c5766eadb::t_2bfce5755c2dee 97,102-120,130,133-173
+bench/runners/arm_c_combined.py
+  s_8b936c5766eadb::t_dba79aecd5b719 1,3-6,8-11,13-15,17-123
+bench/workers/crg_worker.py
+  s_8b936c5766eadb::t_dc88177be7e052 277-280
+  s_8b936c5766eadb::t_68f3bd50c4dc8e 163-181,194-195,198-199
+  s_8b936c5766eadb::t_302f378c714a02 182-193,196-197,200-217,220-257
+  s_8b936c5766eadb::t_60b0466200476f 218-219
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "dee89bef5e8d4ac193dff6513ed7421f0ccc765e",
+  "prompts": {},
+  "sessions": {
+    "s_8b936c5766eadb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a975aadb-83a5-4f45-ac62-85580e55626c",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Minsu Lee <amond@amond.net>"
+    }
+  }
+}
