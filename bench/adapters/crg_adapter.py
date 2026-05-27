@@ -97,6 +97,25 @@ class CrgAdapter:
         }
         return self._worker(job)["rows"]
 
+    def combined(self, repo: str, repo_path: Path, tasks: list, semble_hits: dict) -> list[dict]:
+        """Arm C: resolve anchor from semble hits, then traverse with crg graph.
+
+        `semble_hits` maps task.id -> [{file,start_line,end_line}] (semble's ranked hits).
+        """
+        db_path = SCRATCH_DIR / "crg" / f"{repo_path.name}.db"
+        job = {
+            "op": "combined", "repo_path": str(repo_path.resolve()),
+            "db_path": str(db_path),
+            "tasks": [
+                {"id": t.id, "anchor_qualified_suffix": t.anchor_qualified_suffix,
+                 "traversal_pattern": t.traversal_pattern,
+                 "expected_neighbor_names": list(t.expected_neighbor_names), "k": t.k,
+                 "semble_hits": semble_hits.get(t.id, [])}
+                for t in tasks
+            ],
+        }
+        return self._worker(job)["rows"]
+
     def impact(self, repo: str, repo_path: Path, test_commits: list) -> list[dict]:
         db_path = SCRATCH_DIR / "crg" / f"{repo_path.name}.db"
         job = {

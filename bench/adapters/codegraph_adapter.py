@@ -92,6 +92,85 @@ class CodegraphAdapter:
         rows = d.get(sub, d.get("results", []))
         return [(r.get("name") or "").lower() for r in rows if isinstance(r, dict)]
 
+    NEAR_MARGIN = 80  # lines: chunk-based semble hits may sit beside the symbol
+
+    def symbols_in_file(self, repo_path: Path, file: str, lo, hi) -> list[dict]:
+        """Symbols in `file` overlapping or within NEAR_MARGIN of [lo, hi].
+
+        Ranked by distance then specificity (reads codegraph's own .codegraph db).
+        """
+        import sqlite3
+
+        db = repo_path / ".codegraph" / "codegraph.db"
+        if not db.exists():
+            return []
+        con = sqlite3.connect(str(db))
+        try:
+            rows = con.execute(
+                "SELECT name, qualified_name, start_line, end_line FROM nodes "
+                "WHERE file_path = ? AND kind != 'file'", (file,),
+            ).fetchall()
+        except sqlite3.Error:
+            return []
+        finally:
+            con.close()
+        out = []
+        for name, qn, ls, le in rows:
+            if ls is None or le is None:
+                continue
+            if lo is None or hi is None:
+                gap = 0
+            elif le < lo:
+                gap = lo - le
+            elif ls > hi:
+                gap = ls - hi
+            else:
+                gap = 0
+            if gap > self.NEAR_MARGIN:
+                continue
+            out.append({"name": name, "qualified_name": qn, "gap": gap, "span": le - ls})
+        out.sort(key=lambda d: (d["gap"], d["span"]))
+        return out
+
+    def combined(self, repo: str, repo_path: Path, tasks: list, semble_hits: dict) -> list[dict]:
+        """Arm C: resolve anchor from semble hits (via codegraph's own index), then traverse."""
+        self.ensure_indexed(repo_path)
+        out = []
+        for t in tasks:
+            suffix = t.anchor_qualified_suffix.lower()
+            bare = suffix.split("::")[-1].split(".")[-1]
+            expected = [e.lower() for e in t.expected_neighbor_names]
+            candidates, seen = [], set()
+            for hit in semble_hits.get(t.id, []):
+                for s in self.symbols_in_file(repo_path, hit["file"],
+                                              hit.get("start_line"), hit.get("end_line")):
+                    if s["qualified_name"] not in seen:
+                        seen.add(s["qualified_name"])
+                        candidates.append(s)
+                if len(candidates) >= t.k:
+                    break
+            anchor, rank = None, -1
+            for i, c in enumerate(candidates[: t.k]):
+                if c["name"].lower() == bare or c["qualified_name"].lower().endswith(suffix):
+                    anchor, rank = c, i
+                    break
+            if anchor is None and candidates:
+                anchor = candidates[0]
+            if anchor is None:
+                out.append({"task_id": t.id, "anchor_found": False, "anchor_rank": -1,
+                            "neighbor_count": 0, "expected_count": len(expected),
+                            "matched_count": 0, "neighbor_recall": 0.0, "score": 0.0})
+                continue
+            names = set(self.neighbors(repo_path, anchor["name"], t.traversal_pattern))
+            matched = sum(1 for e in expected if e in names)
+            recall = matched / len(expected) if expected else 0.0
+            found = rank >= 0
+            out.append({"task_id": t.id, "anchor_found": found, "anchor_rank": rank,
+                        "neighbor_count": len(names), "expected_count": len(expected),
+                        "matched_count": matched, "neighbor_recall": round(recall, 3),
+                        "score": round(recall, 3) if found else 0.0})
+        return out
+
     def multihop(self, repo: str, repo_path: Path, tasks: list) -> list[dict]:
         """search -> anchor (by bare symbol name) -> traverse -> neighbor recall."""
         self.ensure_indexed(repo_path)

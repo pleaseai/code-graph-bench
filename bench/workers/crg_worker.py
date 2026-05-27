@@ -160,6 +160,101 @@ def _op_impact(store, repo: Path, test_commits: list[dict]) -> list[dict]:
     return out
 
 
+_NEAR_MARGIN = 80  # lines: a chunk-based hit may sit just beside the symbol
+
+
+def _gap(ls, le, lo, hi) -> int:
+    if lo is None or hi is None:
+        return 0
+    if le < lo:
+        return lo - le
+    if ls > hi:
+        return ls - hi
+    return 0  # overlap
+
+
+def _symbols_near(store, repo: Path, file: str, lo, hi) -> list[dict]:
+    """Symbols in `file` overlapping or within _NEAR_MARGIN of [lo, hi].
+
+    semble returns chunk spans that may sit just beside the target symbol
+    (e.g. it surfaced the caller region), so rank by distance, then specificity.
+    """
+    abs_path = str((repo / file).resolve())
+    try:
+        nodes = store.get_nodes_by_file(abs_path)
+    except Exception:  # noqa: BLE001
+        return []
+    out = []
+    for n in nodes:
+        if getattr(n, "kind", None) == "File":
+            continue
+        ls, le = getattr(n, "line_start", None), getattr(n, "line_end", None)
+        if ls is None or le is None:
+            continue
+        gap = _gap(ls, le, lo, hi)
+        if gap > _NEAR_MARGIN:
+            continue
+        out.append({"name": n.name, "qualified_name": n.qualified_name,
+                    "gap": gap, "span": le - ls})
+    out.sort(key=lambda d: (d["gap"], d["span"]))
+    return out
+
+
+def _op_combined(store, repo: Path, tasks: list[dict]) -> list[dict]:
+    """semble -> anchor: resolve anchor symbol from semble hits, then traverse."""
+    from code_review_graph.tools.query import query_graph
+
+    out = []
+    for task in tasks:
+        suffix = task["anchor_qualified_suffix"].lower()
+        bare = suffix.split("::")[-1].split(".")[-1]
+        expected = [e.lower() for e in task.get("expected_neighbor_names", [])]
+        pattern = task.get("traversal_pattern", "callers_of")
+        k = int(task.get("k", 10))
+
+        candidates: list[dict] = []
+        seen = set()
+        for hit in task.get("semble_hits", []):
+            for s in _symbols_near(store, repo, hit["file"],
+                                   hit.get("start_line"), hit.get("end_line")):
+                key = s["qualified_name"]
+                if key not in seen:
+                    seen.add(key)
+                    candidates.append(s)
+            if len(candidates) >= k:
+                break
+
+        anchor, rank = None, -1
+        for i, c in enumerate(candidates[:k]):
+            if c["name"].lower() == bare or c["qualified_name"].lower().endswith(suffix):
+                anchor, rank = c, i
+                break
+        if anchor is None and candidates:
+            anchor = candidates[0]  # still traverse from best guess
+
+        if anchor is None:
+            out.append({"task_id": task["id"], "anchor_found": False, "anchor_rank": -1,
+                        "neighbor_count": 0, "expected_count": len(expected),
+                        "matched_count": 0, "neighbor_recall": 0.0, "score": 0.0})
+            continue
+        try:
+            trav = query_graph(pattern=pattern, target=anchor["qualified_name"],
+                               repo_root=str(repo), detail_level="standard")
+        except Exception:  # noqa: BLE001
+            trav = {}
+        rows = trav.get("data") or trav.get("results") or []
+        names = {(r.get("name") or "").lower() for r in rows if isinstance(r, dict)}
+        matched = sum(1 for e in expected if e in names)
+        recall = matched / len(expected) if expected else 0.0
+        found = rank >= 0
+        out.append({"task_id": task["id"], "anchor_found": found,
+                    "anchor_rank": rank, "neighbor_count": len(rows),
+                    "expected_count": len(expected), "matched_count": matched,
+                    "neighbor_recall": round(recall, 3),
+                    "score": round(recall, 3) if found else 0.0})
+    return out
+
+
 def main() -> None:
     job = json.load(sys.stdin)
 
@@ -178,6 +273,10 @@ def main() -> None:
     if op == "impact":
         json.dump({"build_ms": build_ms, "post_ms": post_ms,
                    "rows": _op_impact(store, repo, job["test_commits"])}, sys.stdout)
+        return
+    if op == "combined":
+        json.dump({"build_ms": build_ms, "post_ms": post_ms,
+                   "rows": _op_combined(store, repo, job["tasks"])}, sys.stdout)
         return
 
     from code_review_graph.search import hybrid_search
