@@ -66,6 +66,36 @@ def fetch_repo(spec: RepoSpec) -> dict[str, Path]:
     return out
 
 
+def deepen_for_commits(dest: Path, url: str, shas: list[str]) -> bool:
+    """Ensure each commit and its parent are present (needed for ``git diff sha~1 sha``).
+
+    The default checkout is shallow (depth 1); impact analysis needs parents.
+    Fetches each commit with depth 2. Returns True if all parents are reachable.
+    """
+    if not (dest / ".git").exists():
+        return False
+    for sha in shas:
+        try:
+            _run(["git", "rev-parse", f"{sha}~1"], cwd=dest)
+            continue  # parent already present
+        except subprocess.CalledProcessError:
+            pass
+        try:
+            _run(["git", "fetch", "--depth", "2", "origin", sha], cwd=dest)
+        except subprocess.CalledProcessError:
+            try:
+                _run(["git", "fetch", "--unshallow", "origin"], cwd=dest)
+            except subprocess.CalledProcessError:
+                return False
+    # verify
+    for sha in shas:
+        try:
+            _run(["git", "rev-parse", f"{sha}~1"], cwd=dest)
+        except subprocess.CalledProcessError:
+            return False
+    return True
+
+
 def fetch_all(repos: list[str] | None = None) -> dict[str, dict[str, Path]]:
     corpus = load_corpus()
     CHECKOUTS_DIR.mkdir(parents=True, exist_ok=True)

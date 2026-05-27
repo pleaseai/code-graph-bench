@@ -71,3 +71,37 @@ class CrgAdapter:
             build_ms=data.get("build_ms"), post_ms=data.get("post_ms"),
             queries=qrs, stats=data.get("stats", {}), db_bytes=data.get("db_bytes"),
         )
+
+    def _worker(self, job: dict) -> dict:
+        proc = subprocess.run(
+            [str(CRG_VENV_PYTHON), str(CRG_WORKER)],
+            input=json.dumps(job), capture_output=True, text=True,
+        )
+        if proc.returncode != 0:
+            raise RuntimeError(f"crg worker failed:\n{proc.stderr[-2000:]}")
+        return json.loads(proc.stdout)
+
+    # ----- graph traversal (Arm B/C) -----
+    def multihop(self, repo: str, repo_path: Path, tasks: list) -> list[dict]:
+        db_path = SCRATCH_DIR / "crg" / f"{repo_path.name}.db"
+        job = {
+            "op": "multihop", "repo_path": str(repo_path.resolve()),
+            "db_path": str(db_path),
+            "tasks": [
+                {"id": t.id, "nl_query": t.nl_query,
+                 "anchor_qualified_suffix": t.anchor_qualified_suffix,
+                 "traversal_pattern": t.traversal_pattern,
+                 "expected_neighbor_names": list(t.expected_neighbor_names), "k": t.k}
+                for t in tasks
+            ],
+        }
+        return self._worker(job)["rows"]
+
+    def impact(self, repo: str, repo_path: Path, test_commits: list) -> list[dict]:
+        db_path = SCRATCH_DIR / "crg" / f"{repo_path.name}.db"
+        job = {
+            "op": "impact", "repo_path": str(repo_path.resolve()),
+            "db_path": str(db_path),
+            "test_commits": [{"sha": tc.sha} for tc in test_commits],
+        }
+        return self._worker(job)["rows"]

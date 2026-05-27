@@ -69,6 +69,58 @@ class CodegraphAdapter:
         )
 
 
+    # ----- graph traversal (Arm B/C) -----
+    def ensure_indexed(self, repo_path: Path) -> None:
+        if not (repo_path / ".codegraph").exists():
+            r = self._run(["init", "-i"], repo_path)
+            if r.returncode != 0:
+                raise RuntimeError(f"codegraph init failed:\n{r.stderr[-1500:]}")
+
+    def search_symbols(self, repo_path: Path, query: str, k: int) -> list[Hit]:
+        res = self._run(["query", query, "--json", "-l", str(k)], repo_path)
+        return _parse_hits(res.stdout)
+
+    def neighbors(self, repo_path: Path, symbol: str, pattern: str) -> list[str]:
+        sub = {"callers_of": "callers", "callees_of": "callees"}.get(pattern)
+        if sub is None:
+            return []
+        res = self._run([sub, symbol, "--json"], repo_path)
+        try:
+            d = json.loads(res.stdout)
+        except json.JSONDecodeError:
+            return []
+        rows = d.get(sub, d.get("results", []))
+        return [(r.get("name") or "").lower() for r in rows if isinstance(r, dict)]
+
+    def multihop(self, repo: str, repo_path: Path, tasks: list) -> list[dict]:
+        """search -> anchor (by bare symbol name) -> traverse -> neighbor recall."""
+        self.ensure_indexed(repo_path)
+        out = []
+        for task in tasks:
+            suffix = task.anchor_qualified_suffix.lower()
+            bare = suffix.split("::")[-1].split(".")[-1]
+            expected = [e.lower() for e in task.expected_neighbor_names]
+            hits = self.search_symbols(repo_path, task.nl_query, task.k)
+            anchor, rank = None, -1
+            for i, h in enumerate(hits):
+                if (h.name or "").lower() == bare or (h.symbol or "").lower().endswith(suffix):
+                    anchor, rank = h, i
+                    break
+            if anchor is None:
+                out.append({"task_id": task.id, "anchor_found": False, "anchor_rank": -1,
+                            "neighbor_count": 0, "expected_count": len(expected),
+                            "matched_count": 0, "neighbor_recall": 0.0, "score": 0.0})
+                continue
+            names = set(self.neighbors(repo_path, anchor.name or bare, task.traversal_pattern))
+            matched = sum(1 for e in expected if e in names)
+            recall = matched / len(expected) if expected else 0.0
+            out.append({"task_id": task.id, "anchor_found": True, "anchor_rank": rank,
+                        "neighbor_count": len(names), "expected_count": len(expected),
+                        "matched_count": matched, "neighbor_recall": round(recall, 3),
+                        "score": round(recall, 3)})
+        return out
+
+
 def _parse_hits(stdout: str) -> list[Hit]:
     try:
         rows = json.loads(stdout)
