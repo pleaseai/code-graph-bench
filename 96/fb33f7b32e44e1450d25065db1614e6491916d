@@ -1,0 +1,34 @@
+pyproject.toml
+  s_8b936c5766eadb::t_8706fb184b0a3e 28
+  s_8b936c5766eadb::t_e331b446b6a9c9 2
+README.md
+  s_8b936c5766eadb::t_8706fb184b0a3e 1,60,128,130-131,137-141,143,146,160
+bench/config.py
+  s_8b936c5766eadb::t_8706fb184b0a3e 15,18
+bench/cli.py
+  s_8b936c5766eadb::t_8706fb184b0a3e 1
+bench/runners/arm_d_agent.py
+  s_8b936c5766eadb::t_8706fb184b0a3e 9,113
+RESULTS.md
+  s_8b936c5766eadb::t_8706fb184b0a3e 3
+bench/__init__.py
+  s_8b936c5766eadb::t_8706fb184b0a3e 1
+.gitignore
+  s_8b936c5766eadb::t_a480b0a08ec707 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "96fb33f7b32e44e1450d25065db1614e6491916d",
+  "prompts": {},
+  "sessions": {
+    "s_8b936c5766eadb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a975aadb-83a5-4f45-ac62-85580e55626c",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Minsu Lee <amond@amond.net>"
+    }
+  }
+}
