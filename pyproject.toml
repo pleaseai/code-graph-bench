@@ -1,5 +1,5 @@
 [project]
-name = "code-graph-bench"
+name = "code-intelligence-bench"
 version = "0.1.0"
 description = "Independent, apples-to-apples benchmark for code-intelligence tools for AI agents (semble, code-review-graph, codegraph)"
 readme = "README.md"
@@ -25,7 +25,7 @@ tools = ["semble[mcp]>=0.1", "code-review-graph>=2.3"]
 dev = ["pytest>=8.0"]
 
 [project.scripts]
-cgbench = "bench.cli:app"
+cibench = "bench.cli:app"
 
 [build-system]
 requires = ["hatchling"]

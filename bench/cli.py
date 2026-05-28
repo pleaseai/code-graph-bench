@@ -1,4 +1,4 @@
-"""cgbench — command-line entry point."""
+"""cibench — command-line entry point."""
 
 from __future__ import annotations
 

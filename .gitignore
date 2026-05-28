@@ -1,4 +1,4 @@
-# Cloned repo snapshots (re-fetchable via `cgbench fetch`)
+# Cloned repo snapshots (re-fetchable via `cibench fetch`)
 /checkouts/
 
 # Scratch graph DBs written during runs

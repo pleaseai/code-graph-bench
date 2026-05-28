@@ -1,6 +1,6 @@
 # Results — reference run
 
-Regenerate any time with `cgbench report` (reads the latest `results/*.json`).
+Regenerate any time with `cibench report` (reads the latest `results/*.json`).
 Quality arms (A/B/C) are deterministic; Perf varies with the machine.
 
 - **Date:** 2026-05-27

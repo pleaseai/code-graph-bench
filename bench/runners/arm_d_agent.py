@@ -6,7 +6,7 @@ for tokens / cost / duration / tool-calls. Generalizes codegraph's audit harness
 (parse-run.mjs). Reports the no-tool-relative delta per tool.
 
 This arm is GUARDED: it does nothing unless ``confirm=True`` and a positive
-``budget_usd`` are passed (CLI: ``cgbench run d --confirm --budget 2``), because
+``budget_usd`` are passed (CLI: ``cibench run d --confirm --budget 2``), because
 each run spends money. semble's MCP requires the Docker image with an MCP
 entrypoint and is left as a documented extension; crg and codegraph serve MCP
 natively.
@@ -110,7 +110,7 @@ def run_arm_d(repos: list[str] | None = None, tools: list[str] | None = None,
               runs: int = 1) -> dict:
     if not confirm or budget <= 0:
         console.print("[yellow]Arm D is guarded (spends Claude API credits).[/]\n"
-                      "Run with: [bold]cgbench run d --confirm --budget <usd>[/] "
+                      "Run with: [bold]cibench run d --confirm --budget <usd>[/] "
                       "(e.g. --budget 2). See README §Arm D.")
         return {"arm": "d_agent", "skipped": True}
 

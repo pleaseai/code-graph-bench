@@ -1,4 +1,4 @@
-# code-graph-bench
+# code-intelligence-bench
 
 An independent, **apples-to-apples** benchmark for four code-intelligence tools
 built to cut an AI agent's code-exploration token cost:
@@ -57,7 +57,7 @@ them tests whether **semble + a graph tool** beats either alone:
 
 > Full tables (all arms, with per-repo numbers and interpretation) are in
 > [**RESULTS.md**](RESULTS.md). They come from the committed reference run in
-> [`results/`](results/); regenerate with `cgbench report`. Multi-hop tasks are
+> [`results/`](results/); regenerate with `cibench report`. Multi-hop tasks are
 > few per repo (1–3), so Arm B/C are directional, not precise.
 
 ## Corpus & gold set
@@ -125,25 +125,25 @@ uv venv && uv pip install -e ".[dev]"
 # isolated tool runtimes
 uv venv .venv-crg     --python 3.13 && uv pip install --python .venv-crg "code-review-graph"
 npm i -g @colbymchenry/codegraph
-docker build --platform linux/amd64 -f docker/semble.Dockerfile -t cgbench-semble:latest .
+docker build --platform linux/amd64 -f docker/semble.Dockerfile -t cibench-semble:latest .
 
-cgbench goldset          # validate the gold set
-cgbench fetch            # clone pinned snapshots into checkouts/
+cibench goldset          # validate the gold set
+cibench fetch            # clone pinned snapshots into checkouts/
 ```
 
 ## Run
 
 ```bash
-cgbench run a            # Arm A — search quality (all repos / tools)
-cgbench run b            # Arm B — graph: multi-hop + impact accuracy
-cgbench run c            # Arm C — combined: semble anchor → graph traverse
-cgbench run perf         # Perf — index time / latency / footprint
-cgbench run a --repo flask --tool semble   # filter repo / tool
+cibench run a            # Arm A — search quality (all repos / tools)
+cibench run b            # Arm B — graph: multi-hop + impact accuracy
+cibench run c            # Arm C — combined: semble anchor → graph traverse
+cibench run perf         # Perf — index time / latency / footprint
+cibench run a --repo flask --tool semble   # filter repo / tool
 
-cgbench report           # render latest results/*.json as markdown tables
+cibench report           # render latest results/*.json as markdown tables
 
 # Arm D is opt-in and spends Claude API credits:
-cgbench run d --confirm --budget 2 --model sonnet
+cibench run d --confirm --budget 2 --model sonnet
 ```
 
 ## Reproducibility
@@ -157,7 +157,7 @@ reference run in `results/` was produced on x86_64 macOS 15.
 
 - **crg semantic mode.** crg *can* use embeddings (`[embeddings]`, local
   all-MiniLM-L6-v2) but that needs torch, which has no x86_64-mac/py3.13 wheel.
-  A `cgbench-crg` Docker image (linux/amd64, embeddings) would let crg's NL
+  A `cibench-crg` Docker image (linux/amd64, embeddings) would let crg's NL
   retrieval compete fairly — currently crg is reported in its lexical default.
 - **soop LLM-feature mode.** soop is run in no-LLM heuristic mode (free,
   deterministic). Its real strength — the LLM-generated feature/intent layer plus
