@@ -39,12 +39,15 @@ them tests whether **semble + a graph tool** beats either alone:
 
 ## Headline findings (this corpus)
 
-- **Search (Arm A).** semble's semantic retrieval dominates NL queries
-  (NDCG@10 **0.72–0.96** across 7 repos); codegraph's FTS5 is a solid second
-  (**0.40–0.72**); **soop's no-LLM heuristic is third (0.29–0.57), beating crg's
-  lexical default everywhere** (crg **0.10–0.30**) at the lowest token cost.
-  The graph tools return **far fewer tokens** per query (60–740 vs semble's
-  ~2,500–3,500) because they return symbol references, not code bodies.
+- **Search (Arm A).** The two semantic retrievers dominate NL queries: semble
+  NDCG@10 **0.72–0.96**, and **csp — the Rust port of the same algorithm —
+  matches it within ±0.03 everywhere (0.69–0.97), winning on 2 of 7 repos**,
+  with ~45% fewer returned tokens, the fastest index build (0.6–3.7 s), and no
+  Docker. codegraph's FTS5 follows (**0.40–0.72**); **soop's no-LLM heuristic
+  is next (0.29–0.57), beating crg's lexical default everywhere** (crg
+  **0.10–0.30**) at the lowest token cost. The graph tools return **far fewer
+  tokens** per query (60–740 vs semble's ~2,500–3,500) because they return
+  symbol references, not code bodies.
 - **Graph (Arm B).** crg reproduces its **~100% impact recall** claim
   (blast-radius). But all three graph tools' *built-in* search fails to locate the
   right **anchor** from a verbose NL query (crg's FTS-AND → 0 hits; codegraph

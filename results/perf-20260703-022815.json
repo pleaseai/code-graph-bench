@@ -1,0 +1,139 @@
+{
+  "arm": "perf",
+  "date": "2026-07-03",
+  "results": [
+    {
+      "tool": "csp",
+      "version": "csp 0.1.9",
+      "repo": "flask",
+      "language": "python",
+      "index_ms": 680.4624870419502,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "total_chunks": 1015
+      },
+      "db_bytes": 2321985,
+      "units": 1015,
+      "throughput_units_per_s": 1491.6325577510133,
+      "latency_p50_ms": 210.96263802610338,
+      "latency_p90_ms": 242.33307293616235,
+      "latency_p95_ms": 242.38693993538618,
+      "latency_p99_ms": 242.50200325623155
+    },
+    {
+      "tool": "csp",
+      "version": "csp 0.1.9",
+      "repo": "fastapi",
+      "language": "python",
+      "index_ms": 2588.9796529663727,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "total_chunks": 6619
+      },
+      "db_bytes": 14509393,
+      "units": 6619,
+      "throughput_units_per_s": 2556.605646713428,
+      "latency_p50_ms": 266.85153547441587,
+      "latency_p90_ms": 336.1679125926458,
+      "latency_p95_ms": 360.21977190393955,
+      "latency_p99_ms": 368.44325995538384
+    },
+    {
+      "tool": "csp",
+      "version": "csp 0.1.9",
+      "repo": "httpx",
+      "language": "python",
+      "index_ms": 708.9099449804053,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "total_chunks": 997
+      },
+      "db_bytes": 2218705,
+      "units": 997,
+      "throughput_units_per_s": 1406.3845585175952,
+      "latency_p50_ms": 206.3601380214095,
+      "latency_p90_ms": 215.31450608745217,
+      "latency_p95_ms": 219.6903439471498,
+      "latency_p99_ms": 238.975296006538
+    },
+    {
+      "tool": "csp",
+      "version": "csp 0.1.9",
+      "repo": "express",
+      "language": "javascript",
+      "index_ms": 616.3698169402778,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "total_chunks": 1010
+      },
+      "db_bytes": 2089329,
+      "units": 1010,
+      "throughput_units_per_s": 1638.6266365438564,
+      "latency_p50_ms": 202.08971243118867,
+      "latency_p90_ms": 225.44634314253926,
+      "latency_p95_ms": 226.8240847683046,
+      "latency_p99_ms": 241.21234100428407
+    },
+    {
+      "tool": "csp",
+      "version": "csp 0.1.9",
+      "repo": "gin",
+      "language": "go",
+      "index_ms": 766.5505150798708,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "total_chunks": 1171
+      },
+      "db_bytes": 2694484,
+      "units": 1171,
+      "throughput_units_per_s": 1527.6227423550652,
+      "latency_p50_ms": 207.08548853872344,
+      "latency_p90_ms": 213.61019170144573,
+      "latency_p95_ms": 220.0721887173131,
+      "latency_p99_ms": 221.27397215459496
+    },
+    {
+      "tool": "csp",
+      "version": "csp 0.1.9",
+      "repo": "tokio",
+      "language": "rust",
+      "index_ms": 3699.603546061553,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "total_chunks": 8791
+      },
+      "db_bytes": 20512456,
+      "units": 8791,
+      "throughput_units_per_s": 2376.200555153684,
+      "latency_p50_ms": 288.54071244131774,
+      "latency_p90_ms": 295.0280280550942,
+      "latency_p95_ms": 299.94020111626014,
+      "latency_p99_ms": 301.10025147674605
+    },
+    {
+      "tool": "csp",
+      "version": "csp 0.1.9",
+      "repo": "alamofire",
+      "language": "swift",
+      "index_ms": 1730.5136659415439,
+      "build_ms": null,
+      "post_ms": null,
+      "stats": {
+        "total_chunks": 3637
+      },
+      "db_bytes": 8309431,
+      "units": 3637,
+      "throughput_units_per_s": 2101.688112368167,
+      "latency_p50_ms": 237.86996299168095,
+      "latency_p90_ms": 244.62406003149226,
+      "latency_p95_ms": 245.86031868238933,
+      "latency_p99_ms": 248.02530930028297
+    }
+  ]
+}
