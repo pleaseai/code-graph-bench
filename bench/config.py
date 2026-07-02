@@ -20,5 +20,7 @@ SOOP_WORKER = WORKERS_DIR / "soop_worker.mjs"  # baked into the image
 
 CODEGRAPH_BIN = shutil.which("codegraph") or "codegraph"
 
+CSP_BIN = shutil.which("csp") or "csp"
+
 # Where graph DBs are written during a run (kept out of the checkouts).
 SCRATCH_DIR = REPO_ROOT / ".scratch"

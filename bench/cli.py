@@ -72,7 +72,7 @@ def goldset() -> None:
 def run(
     arm: str = typer.Argument(..., help="a | b | c | d | perf"),
     repo: list[str] = typer.Option(None, "--repo", "-r"),
-    tool: list[str] = typer.Option(None, "--tool", "-t", help="semble | crg | codegraph"),
+    tool: list[str] = typer.Option(None, "--tool", "-t", help="semble | crg | codegraph | soop | csp"),
     k: int = typer.Option(10, "--k", help="top-k for retrieval."),
     confirm: bool = typer.Option(False, "--confirm", help="Arm D: confirm paid Claude run."),
     budget: float = typer.Option(0.0, "--budget", help="Arm D: max USD per run."),

@@ -1,6 +1,6 @@
 # code-intelligence-bench
 
-An independent, **apples-to-apples** benchmark for four code-intelligence tools
+An independent, **apples-to-apples** benchmark for five code-intelligence tools
 built to cut an AI agent's code-exploration token cost:
 
 | Tool | Lang | What it is | Search modality |
@@ -9,6 +9,7 @@ built to cut an AI agent's code-exploration token cost:
 | [**code-review-graph**](https://github.com/tirth8205/code-review-graph) (crg) | Python | Code **graph** for review / blast-radius | lexical (FTS5 + keyword) by default |
 | [**codegraph**](https://github.com/colbymchenry/codegraph) | TypeScript | Code **knowledge graph** for agents | lexical (FTS5) |
 | [**soop**](https://github.com/pleaseai/soop) (RPG) | TypeScript | Repository Planning **Graph** (search + dep graph + generation) | RPG features (LLM or heuristic) + optional vector |
+| [**code-search**](https://github.com/pleaseai/code-search) (csp) | Rust | Code **search** CLI (chunks) — Rust port of semble's algorithm | semantic + lexical (static embeddings + BM25 + RRF) |
 
 soop is itself a graph-for-agents tool (it also does semantic search, a dependency
 graph, and — uniquely — repo generation), so it participates as both a retriever
@@ -30,7 +31,7 @@ them tests whether **semble + a graph tool** beats either alone:
 
 | Arm | Tools | Question | Cost |
 |---|---|---|---|
-| **A. Search** | semble, crg, codegraph, soop | NL query → relevant code? | free / deterministic |
+| **A. Search** | semble, crg, codegraph, soop, csp | NL query → relevant code? | free / deterministic |
 | **B. Graph** | crg, codegraph, soop | blast-radius & multi-hop accuracy? | free / deterministic |
 | **C. Combined** | semble→crg, semble→codegraph | does semble as anchor-finder help the graph tools? | free / deterministic |
 | **D. Agent E2E** *(opt-in)* | all + no-tool | real agent tokens/cost/time/tool-calls? | **paid** (Claude API) |
@@ -96,6 +97,14 @@ mode**, not tuned. Because two tools have x86_64-macOS wheel gaps, runtimes diff
   latency is measured as **CLI wall time, so it includes Node startup** (~240 ms)
   — unlike semble/crg's in-process latency. Flagged in Perf; quality metrics
   unaffected.
+- **csp** → **native** single Rust binary (`csp`). Indexes with `csp index -o`
+  into the bench scratch dir; queried via `csp search --index`. Query latency is
+  CLI wall time (includes process startup, like codegraph). **Caveat:** csp
+  downloads its embedding model (potion-code-16M, Hugging Face) and tree-sitter
+  grammars on first use and **silently falls back to a stub embedder offline** —
+  warm the cache with one online search before benchmarking, or the semantic
+  scores are garbage. Parity check: its flask NDCG@10 matches semble's (same
+  algorithm), confirming the real model ran.
 - **soop** → **Docker (linux/amd64), under Node.** soop's native tree-sitter
   backend has no x86_64-macOS build, and its semantic cache needs better-sqlite3
   (unsupported by Bun) — so the worker runs under Node in a container. Benchmarked
@@ -125,6 +134,7 @@ uv venv && uv pip install -e ".[dev]"
 # isolated tool runtimes
 uv venv .venv-crg     --python 3.13 && uv pip install --python .venv-crg "code-review-graph"
 npm i -g @colbymchenry/codegraph
+brew install pleaseai/tap/csp        # or: npm i -g @pleaseai/csp
 docker build --platform linux/amd64 -f docker/semble.Dockerfile -t cibench-semble:latest .
 
 cibench goldset          # validate the gold set
