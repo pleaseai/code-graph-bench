@@ -69,16 +69,29 @@ class SoopAdapter:
         return SearchRun(tool=self.name, repo=repo, index_ms=data["index_ms"],
                          queries=qrs, stats=data.get("stats", {}))
 
+    @staticmethod
+    def _task_payload(tasks: list) -> list[dict]:
+        return [
+            {"id": t.id, "nl_query": t.nl_query,
+             "anchor_qualified_suffix": t.anchor_qualified_suffix,
+             "traversal_pattern": t.traversal_pattern,
+             "expected_neighbor_names": list(t.expected_neighbor_names), "k": t.k}
+            for t in tasks
+        ]
+
     def multihop(self, repo: str, repo_path: Path, tasks: list) -> list[dict]:
         data = self._run({
             "op": "multihop", "repo_path": self._container_repo(repo_path),
-            "tasks": [
-                {"id": t.id, "nl_query": t.nl_query,
-                 "anchor_qualified_suffix": t.anchor_qualified_suffix,
-                 "traversal_pattern": t.traversal_pattern,
-                 "expected_neighbor_names": list(t.expected_neighbor_names), "k": t.k}
-                for t in tasks
-            ],
+            "tasks": self._task_payload(tasks),
+        })
+        return data["rows"]
+
+    def combined(self, repo: str, repo_path: Path, tasks: list,
+                 anchor_hits: dict) -> list[dict]:
+        """Arm C/H: resolve anchor from external retrieval hits, then traverse."""
+        data = self._run({
+            "op": "combined", "repo_path": self._container_repo(repo_path),
+            "tasks": self._task_payload(tasks), "anchor_hits": anchor_hits,
         })
         return data["rows"]
 

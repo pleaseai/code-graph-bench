@@ -70,7 +70,7 @@ def goldset() -> None:
 
 @app.command()
 def run(
-    arm: str = typer.Argument(..., help="a | b | c | d | perf"),
+    arm: str = typer.Argument(..., help="a | b | c | d | h | perf"),
     repo: list[str] = typer.Option(None, "--repo", "-r"),
     tool: list[str] = typer.Option(None, "--tool", "-t", help="semble | crg | codegraph | soop | csp"),
     k: int = typer.Option(10, "--k", help="top-k for retrieval."),
@@ -96,13 +96,17 @@ def run(
         from bench.runners.arm_c_combined import run_arm_c
 
         run_arm_c(repos=repo or None)
+    elif arm == "h":
+        from bench.runners.arm_h_hybrid import run_arm_h
+
+        run_arm_h(repos=repo or None, k=k)
     elif arm == "d":
         from bench.runners.arm_d_agent import run_arm_d
 
         run_arm_d(repos=repo or None, tools=tool or None,
                   confirm=confirm, budget=budget, model=model)
     else:
-        raise typer.BadParameter("arm must be one of: a, b, c, d, perf")
+        raise typer.BadParameter("arm must be one of: a, b, c, d, h, perf")
 
 
 @app.command()

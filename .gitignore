@@ -28,3 +28,4 @@ build/
 
 # soop RPG cache
 .rpg/
+.toolchain/

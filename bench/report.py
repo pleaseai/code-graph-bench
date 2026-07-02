@@ -89,9 +89,23 @@ def _arm_c_md(data: dict) -> str:
     return f"## Arm C — combined (semble anchor → graph traverse) ({data['date']})\n\n{body}\n"
 
 
+def _arm_h_md(data: dict) -> str:
+    rows = []
+    for r in sorted(data["results"], key=lambda x: (x["repo"], x["pipeline"])):
+        rows.append([
+            r["repo"], r["pipeline"], str(r["n"]),
+            f'{r["anchor_found_rate"]:.2f}', f'{r["mean_recall"]:.3f}',
+            f'{r["mean_score"]:.3f}',
+        ])
+    body = _md_table(
+        ["repo", "pipeline", "tasks", "anchor found", "neighbor recall", "score"], rows)
+    return f"## Arm H — hybrid (csp anchor → LSP/soop traverse) ({data['date']})\n\n{body}\n"
+
+
 RENDERERS = {
     "a": ("arm_a", _arm_a_md), "b": ("arm_b", _arm_b_md),
-    "c": ("arm_c", _arm_c_md), "perf": ("perf", _perf_md),
+    "c": ("arm_c", _arm_c_md), "h": ("arm_h", _arm_h_md),
+    "perf": ("perf", _perf_md),
 }
 
 
