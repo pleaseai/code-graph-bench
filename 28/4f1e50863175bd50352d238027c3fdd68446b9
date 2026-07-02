@@ -1,0 +1,32 @@
+bench/cli.py
+  s_afde1a091bbe99::t_82aebd91041ef7 75
+bench/runners/registry.py
+  s_afde1a091bbe99::t_da849330669d95 7,16,20
+bench/config.py
+  s_afde1a091bbe99::t_f181bf97805052 23-24
+tests/test_csp_adapter.py
+  s_afde1a091bbe99::t_5d051603af7fb6 1-44
+bench/adapters/csp_adapter.py
+  s_afde1a091bbe99::t_814aaa5c0c14cc 1-103
+README.md
+  s_afde1a091bbe99::t_7bce28de680822 100-107
+  s_afde1a091bbe99::t_9e7ccc52e801b1 34
+  s_afde1a091bbe99::t_69a57059d4ba35 137
+  s_afde1a091bbe99::t_4191583254d072 3,12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "284f1e50863175bd50352d238027c3fdd68446b9",
+  "prompts": {},
+  "sessions": {
+    "s_afde1a091bbe99": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "13c63ab2-3c23-4ab9-99ba-8442e6089156",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Minsu Lee <minsu.lee@pleaseai.dev>"
+    }
+  }
+}
