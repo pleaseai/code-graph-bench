@@ -1,0 +1,41 @@
+{
+  "arm": "b_graph",
+  "date": "2026-07-03",
+  "multihop": [
+    {
+      "tool": "lsp",
+      "version": "code 0.1.14 (pyright/tsls/gopls)",
+      "repo": "flask",
+      "n_tasks": 2,
+      "anchor_found_rate": 0.0,
+      "mean_anchor_rank": null,
+      "mean_neighbor_recall": 0.0,
+      "mean_score": 0.0,
+      "rows": [
+        {
+          "task_id": "flask-dispatch-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 1,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0,
+          "neighbor_names": []
+        },
+        {
+          "task_id": "flask-exception-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 1,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0,
+          "neighbor_names": []
+        }
+      ]
+    }
+  ],
+  "impact": []
+}

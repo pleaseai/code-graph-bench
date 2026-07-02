@@ -3,9 +3,9 @@
 Regenerate any time with `cibench report` (reads the latest `results/*.json`).
 Quality arms (A/B/C) are deterministic; Perf varies with the machine.
 
-- **Date:** 2026-05-27 (semble/crg/codegraph/soop) · 2026-07-03 (csp rows, same machine)
+- **Date:** 2026-05-27 (semble/crg/codegraph/soop) · 2026-07-03 (csp/lsp/ttsc rows + Arm H, same machine)
 - **Machine:** Intel Core i7-9700K @ 3.6 GHz, 64 GB RAM, macOS 15.6.1 (x86_64)
-- **Tool versions:** semble 0.1.4 (Docker linux/amd64) · code-review-graph 2.3.5 (native, lexical) · codegraph 0.9.6 (native CLI) · soop / @pleaseai/soop 0.1.33 (Docker linux/amd64, no-LLM heuristic) · csp / code-search 0.1.8 (native Rust CLI)
+- **Tool versions:** semble 0.1.4 (Docker linux/amd64) · code-review-graph 2.3.5 (native, lexical) · codegraph 0.9.6 (native CLI) · soop / @pleaseai/soop 0.1.33 (Docker linux/amd64, no-LLM heuristic) · csp / code-search 0.1.8 (native Rust CLI) · lsp = @pleaseai/code 0.1.14 piping pyright 1.1.411 / typescript-language-server 5.3.0 / gopls 0.22.0 · @ttsc/graph 0.16.8 (MCP, express only)
 - **Config:** whole-repo indexing, shipped defaults, top-k = 10. See [README](README.md) for methodology & fairness rules.
 
 ---
@@ -70,35 +70,49 @@ vs code bodies).
 
 ---
 
-## Arm B — graph capability (graph tools: crg, codegraph, soop)
+## Arm B — graph capability (graph tools: crg, codegraph, soop, lsp, ttsc)
 
 ### Multi-hop retrieval (search → anchor → one-hop traverse)
 
 Each tool uses its **own** search to find the anchor, then traverses.
 `score = anchor_found × neighbor_recall`. (1–3 tasks/repo → directional.)
+lsp/ttsc rows added 2026-07-03: lsp's "own search" is `workspace/symbol` over
+the NL query; ttsc runs only on express (TypeScript-only; injected `allowJs`
+tsconfig — a compatibility floor).
 
 | repo | tool | tasks | anchor found | neighbor recall | score |
 | --- | --- | --- | --- | --- | --- |
 | flask | crg | 2 | 0.00 | 0.000 | 0.000 |
 | flask | codegraph | 2 | 0.00 | 0.000 | 0.000 |
 | flask | soop | 2 | 0.00 | 0.000 | 0.000 |
+| flask | lsp | 2 | 0.00 | 0.000 | 0.000 |
 | fastapi | crg | 2 | 0.00 | 0.000 | 0.000 |
 | fastapi | codegraph | 2 | 0.00 | 0.000 | 0.000 |
 | fastapi | soop | 2 | 0.00 | 0.000 | 0.000 |
+| fastapi | lsp | 2 | 0.00 | 0.000 | 0.000 |
 | httpx | crg | 2 | 0.00 | 0.000 | 0.000 |
 | httpx | codegraph | 2 | 0.50 | 0.500 | 0.500 |
 | httpx | soop | 2 | 0.00 | 0.000 | 0.000 |
+| httpx | lsp | 2 | 0.00 | 0.000 | 0.000 |
 | express | crg | 1 | 0.00 | 0.000 | 0.000 |
 | express | codegraph | 1 | 0.00 | 0.000 | 0.000 |
 | express | soop | 1 | 0.00 | 0.000 | 0.000 |
+| express | lsp | 1 | 0.00 | 0.000 | 0.000 |
+| express | **ttsc** | 1 | **1.00** | 0.000 | 0.000 |
 | gin | crg | 2 | 0.00 | 0.000 | 0.000 |
 | gin | codegraph | 2 | 1.00 | 1.000 | 1.000 |
 | gin | soop | 2 | 0.00 | 0.000 | 0.000 |
+| gin | lsp | 2 | 0.00 | 0.000 | 0.000 |
 
-**Read:** all three tools' built-in search usually **fails to locate the right
+**Read:** the tools' built-in search usually **fails to locate the right
 anchor** from a verbose NL query (crg's FTS-AND → 0; codegraph latches onto common
-tokens; soop's no-LLM heuristic features likewise miss) — only codegraph anchors
-on gin/httpx. This is the gap Arm C closes (for crg/codegraph, via semble).
+tokens; soop's no-LLM heuristic features likewise miss; LSP `workspace/symbol` is
+fuzzy *symbol-name* matching, hopeless against sentences — and tsserver's navto
+even errors on them). Only codegraph anchors on gin/httpx. Notably, **ttsc's
+`lookup` is the only tool that anchored express from the verbose NL query**
+(rank 0) — its scoring handles sentence queries — but the compiler graph over
+CommonJS has almost no call edges, so traversal recall stays 0 (see caveat).
+This anchor gap is what Arm C closes via semble, and Arm H via csp.
 
 ### Impact accuracy (blast-radius, crg methodology)
 
@@ -150,7 +164,49 @@ return the curated neighbor — a traversal-naming detail.)
 
 ---
 
-## Perf — speed & footprint
+## Arm H — hybrid (csp anchor → LSP + soop traverse), added 2026-07-03
+
+Three complementary tools composed end to end: **csp** (semantic retrieval)
+localizes the NL query, **LSP** (pyright/tsserver/gopls) resolves the symbol
+there and expands compiler-precise callers/callees, **soop** expands its own
+dependency graph from the same anchor. `csp→lsp+soop` = union of both
+neighbor sets.
+
+| repo | pipeline | tasks | anchor found | neighbor recall | score |
+| --- | --- | --- | --- | --- | --- |
+| express | csp→lsp | 1 | **1.00** | 0.333 | 0.333 |
+| express | csp→soop | 1 | **1.00** | 0.000 | 0.000 |
+| express | csp→lsp+soop | 1 | **1.00** | 0.333 | 0.333 |
+| fastapi | csp→lsp | 2 | 0.00 | 0.000 | 0.000 |
+| fastapi | csp→soop | 2 | 0.00 | 0.500 | 0.000 |
+| fastapi | csp→lsp+soop | 2 | 0.00 | 0.500 | 0.000 |
+| flask | csp→lsp | 2 | **1.00** | **1.000** | **1.000** |
+| flask | csp→soop | 2 | **1.00** | 0.000 | 0.000 |
+| flask | csp→lsp+soop | 2 | **1.00** | **1.000** | **1.000** |
+| gin | csp→lsp | 2 | **1.00** | **1.000** | **1.000** |
+| gin | csp→soop | 2 | **1.00** | 0.000 | 0.000 |
+| gin | csp→lsp+soop | 2 | **1.00** | **1.000** | **1.000** |
+| httpx | csp→lsp | 2 | 0.50 | 0.000 | 0.000 |
+| httpx | csp→soop | 2 | 0.50 | 0.000 | 0.000 |
+| httpx | csp→lsp+soop | 2 | 0.50 | 0.000 | 0.000 |
+
+**Read:** where every tool's own search scored 0.00 anchors in Arm B, csp
+lifts anchor discovery to 1.00 on flask/gin/express — and **LSP callHierarchy
+then recovers *perfect* neighbor recall on flask and gin**, the best structural
+result in the whole benchmark. The division of labor is stark: **soop confirms
+anchors but contributes zero neighbors** (its no-LLM graph has *no
+function-level dependency edges* — file-level only), so the union rides on LSP.
+The remaining failures are honest pipeline misses, not tool failures: on
+httpx/fastapi, csp's top chunks localize to a *plausible twin* (e.g. httpx's
+`Response.request` property instead of `Client.request`, 210 lines from csp's
+nearest `_client.py` hit) — the same chunk-granularity ambiguity Arm C observed
+for semble→codegraph. Direct probing confirms pyright *would* return the exact
+gold callers (`get/options/head/post/put/patch`) from the right anchor.
+
+Caveats: gopls silently returns empty cross-file results when a snapshot's
+`go.mod` is untidy — the harness runs `go mod tidy` first; language servers
+answer before background indexing completes — the harness waits for
+progress-quiet before traversing.
 
 Cold index time, query latency, index size. **Caveats:** codegraph p50 includes
 Node CLI startup (~240 ms); semble & soop run in Docker (index time includes
@@ -216,7 +272,17 @@ compact (2–21 MB of JSON + packed vectors).
   no-LLM heuristic is a clear second and beats crg's lexical default** — at the
   lowest token cost. soop's full LLM-feature mode (untested) would likely close
   more of the gap to semble.
-- **Structural queries (impact/callers):** the graph tools' domain; semble can't do it.
-- **Best of both:** semble → graph as a pipeline lifts crg/codegraph on the NL
-  queries their own search can't anchor — the practical takeaway being to **pair**
-  a semantic retriever with a graph tool rather than choose one.
+- **Structural queries (impact/callers):** the graph tools' domain; the
+  retrievers can't do it — and among structural backends, **LSP callHierarchy is
+  the most precise traversal measured** (perfect recall on flask/gin once
+  anchored), while soop's free mode can't traverse at symbol level at all.
+- **Best of both — now measured twice:** semble→graph (Arm C) and
+  **csp→lsp(+soop) (Arm H)** both lift anchor discovery from ~0 to ~1.0 on the
+  NL queries the graph tools can't anchor. The strongest composed pipeline in
+  this benchmark is **csp for localization + LSP for traversal** — a native,
+  free, deterministic stack. The failure mode that remains is chunk-granularity
+  anchor ambiguity on twin symbols (httpx/fastapi).
+- **ttsc** deserves a TypeScript arena: even against a CommonJS repo it was the
+  only tool to anchor express from a verbose NL query; its compiler-exact edges
+  need real TS code (roadmap: add a TS corpus repo; port its common/dedicated
+  prompt lanes + trace gate for Arm D — partially done in the harness).

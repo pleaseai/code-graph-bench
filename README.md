@@ -1,6 +1,6 @@
 # code-intelligence-bench
 
-An independent, **apples-to-apples** benchmark for five code-intelligence tools
+An independent, **apples-to-apples** benchmark for seven code-intelligence tools
 built to cut an AI agent's code-exploration token cost:
 
 | Tool | Lang | What it is | Search modality |
@@ -10,6 +10,8 @@ built to cut an AI agent's code-exploration token cost:
 | [**codegraph**](https://github.com/colbymchenry/codegraph) | TypeScript | Code **knowledge graph** for agents | lexical (FTS5) |
 | [**soop**](https://github.com/pleaseai/soop) (RPG) | TypeScript | Repository Planning **Graph** (search + dep graph + generation) | RPG features (LLM or heuristic) + optional vector |
 | [**code-search**](https://github.com/pleaseai/code-search) (csp) | Rust | Code **search** CLI (chunks) — Rust port of semble's algorithm | semantic + lexical (static embeddings + BM25 + RRF) |
+| [**lsp**](https://github.com/pleaseai/code-intelligence) | — | Language servers (pyright / tsserver / gopls) via `code lsp-server` | structural (workspace/symbol + callHierarchy) |
+| [**@ttsc/graph**](https://ttsc.dev/docs/graph/) | TypeScript | **Compiler-exact** code graph (tsc Program → MCP) | compiler graph (lexical lookup + typed trace) |
 
 soop is itself a graph-for-agents tool (it also does semantic search, a dependency
 graph, and — uniquely — repo generation), so it participates as both a retriever
@@ -32,8 +34,9 @@ them tests whether **semble + a graph tool** beats either alone:
 | Arm | Tools | Question | Cost |
 |---|---|---|---|
 | **A. Search** | semble, crg, codegraph, soop, csp | NL query → relevant code? | free / deterministic |
-| **B. Graph** | crg, codegraph, soop | blast-radius & multi-hop accuracy? | free / deterministic |
-| **C. Combined** | semble→crg, semble→codegraph | does semble as anchor-finder help the graph tools? | free / deterministic |
+| **B. Graph** | crg, codegraph, soop, lsp, ttsc | blast-radius & multi-hop accuracy? | free / deterministic |
+| **C. Combined** | semble→crg, semble→codegraph, semble→soop | does semble as anchor-finder help the graph tools? | free / deterministic |
+| **H. Hybrid** | csp→lsp, csp→soop, csp→lsp+soop | do three complementary tools compose end-to-end? | free / deterministic |
 | **D. Agent E2E** *(opt-in)* | all + no-tool | real agent tokens/cost/time/tool-calls? | **paid** (Claude API) |
 | **Perf** *(cross-cutting)* | all | index time, query latency, footprint | free |
 
@@ -58,6 +61,12 @@ them tests whether **semble + a graph tool** beats either alone:
   0.00 → 1.00, neighbor-recall up to 0.00 → 1.00) — but can **regress** where the
   graph tool's own search already nailed it (gin/httpx codegraph). Net: semble is
   a strong **complement** on hard NL cases, not a universal replacement.
+- **Hybrid (Arm H).** The strongest composed pipeline measured: **csp localizes,
+  LSP traverses** — anchor-found 0.00 → 1.00 *and* perfect neighbor recall on
+  flask & gin, all native/free/deterministic. soop confirms anchors but its
+  no-LLM graph has **no function-level edges**, so it adds no neighbors; the
+  remaining misses (httpx/fastapi) are chunk-granularity anchor ambiguity
+  (csp localizes to a plausible twin symbol), not traversal failures.
 
 > Full tables (all arms, with per-repo numbers and interpretation) are in
 > [**RESULTS.md**](RESULTS.md). They come from the committed reference run in
@@ -113,6 +122,22 @@ mode**, not tuned. Because two tools have x86_64-macOS wheel gaps, runtimes diff
   (unsupported by Bun) — so the worker runs under Node in a container. Benchmarked
   as the published `@pleaseai/soop` in **no-LLM heuristic** mode (its no-LLM floor;
   LLM-feature + vector mode is the paid/non-deterministic roadmap variant).
+- **lsp** → **native** language servers through
+  [pleaseai/code-intelligence](https://github.com/pleaseai/code-intelligence)'s
+  `code lsp-server <id> --project=<repo>` (a transparent stdio pipe), driven by a
+  minimal Python LSP client. Servers: pyright (python), typescript-language-server
+  (javascript; classic TS 5 kept in `.toolchain/` since TS 7 has no tsserver.js),
+  gopls (go). LSP has **no NL retrieval** — its Arm B "own search" is
+  workspace/symbol over the NL query, expected to fail like crg's FTS-AND; its
+  value is compiler-precise callHierarchy traversal (Arm H). Go snapshots get
+  `go mod tidy` first (untidy go.mod silently breaks gopls package loading).
+- **ttsc** → **native** Go binary + MCP stdio server, driven with its real typed
+  requests (`lookup`, `trace`). **TypeScript-only by design** — this corpus has
+  no TS repo, so it runs only on express (plain CommonJS) via an injected
+  `allowJs` tsconfig, an upstream-unsupported path: its NL `lookup` still finds
+  anchors, but the compiler graph over CommonJS has almost no call edges, so
+  traversal recall is a **compatibility floor**, not representative. A TS corpus
+  repo with gold labels is the fair-arena roadmap item.
 
 Every tool is reached through one uniform adapter interface
 ([`bench/adapters/base.py`](bench/adapters/base.py)) that returns normalized
@@ -139,6 +164,16 @@ uv venv .venv-crg     --python 3.13 && uv pip install --python .venv-crg "code-r
 npm i -g @colbymchenry/codegraph
 brew install pleaseai/tap/csp        # or: npm i -g @pleaseai/csp
 docker build --platform linux/amd64 -f docker/semble.Dockerfile -t cibench-semble:latest .
+docker build --platform linux/amd64 -f docker/soop.Dockerfile   -t cibench-soop:latest .
+
+# lsp arm: language servers + the code-intelligence pipe
+npm i -g @pleaseai/code pyright typescript-language-server
+npm install --prefix .toolchain typescript@5   # classic tsserver for tsls
+brew install gopls go                          # gopls needs a modern go on PATH
+
+# ttsc arm (TypeScript-only; see caveats)
+npm i -g ttsc @ttsc/graph
+chmod +x "$(npm root -g)"/ttsc/node_modules/@ttsc/*/bin/ttscgraph
 
 cibench goldset          # validate the gold set
 cibench fetch            # clone pinned snapshots into checkouts/
@@ -150,6 +185,7 @@ cibench fetch            # clone pinned snapshots into checkouts/
 cibench run a            # Arm A — search quality (all repos / tools)
 cibench run b            # Arm B — graph: multi-hop + impact accuracy
 cibench run c            # Arm C — combined: semble anchor → graph traverse
+cibench run h            # Arm H — hybrid: csp anchor → lsp/soop traverse
 cibench run perf         # Perf — index time / latency / footprint
 cibench run a --repo flask --tool semble   # filter repo / tool
 
@@ -175,9 +211,21 @@ reference run in `results/` was produced on x86_64 macOS 15.
 - **soop LLM-feature mode.** soop is run in no-LLM heuristic mode (free,
   deterministic). Its real strength — the LLM-generated feature/intent layer plus
   vector search — is a paid, non-deterministic mode not exercised here; expect
-  soop's Arm A numbers to climb meaningfully with it enabled. soop also isn't an
-  Arm C target (it's its own retriever+graph; a `semble→soop` arm is possible).
-- **Multi-hop sample size** is small (1–3 tasks/repo); treat Arm B/C as directional.
+  soop's Arm A numbers to climb meaningfully with it enabled. soop is now also an
+  Arm C/H traversal target via its `combined` worker op.
+- **Multi-hop sample size** is small (1–3 tasks/repo); treat Arm B/C/H as directional.
+- **ttsc needs a TypeScript corpus repo.** @ttsc/graph is compiler-exact and
+  TS-only; on this corpus it can only run against express-as-CommonJS (near-empty
+  edge set). Adding a TS repo with retrieval+graph gold labels would give it a
+  fair arena — its own benchmark (8 TS repos, agent token A/B, common vs
+  dedicated prompt lanes, no-source-read trace gate) is the model to port for
+  Arm D there.
+- **soop's no-LLM graph has no function-level dependency edges** (file-level
+  only), so its Arm B/H traversal cannot recover symbol-granular neighbors in
+  free mode — its LLM mode presumably adds them (untested, paid).
+- **LSP timings aren't index times.** Language servers analyze lazily in the
+  background; the harness waits for progress-quiet before traversing, and LSP
+  participates only in quality arms (B/H), not Perf.
 - **Perf** does not yet capture peak RSS or incremental-update time.
 - **codegraph latency** includes Node process startup (CLI), not in-process.
 - **Arm D** (live agent A/B) is implemented but unrun here (costs money); semble's

@@ -1,0 +1,166 @@
+{
+  "arm": "b_graph",
+  "date": "2026-07-03",
+  "multihop": [
+    {
+      "tool": "lsp",
+      "version": "code 0.1.14 (pyright/tsls/gopls)",
+      "repo": "flask",
+      "n_tasks": 2,
+      "anchor_found_rate": 0.0,
+      "mean_anchor_rank": null,
+      "mean_neighbor_recall": 0.0,
+      "mean_score": 0.0,
+      "rows": [
+        {
+          "task_id": "flask-dispatch-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 1,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0,
+          "neighbor_names": []
+        },
+        {
+          "task_id": "flask-exception-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 1,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0,
+          "neighbor_names": []
+        }
+      ]
+    },
+    {
+      "tool": "lsp",
+      "version": "code 0.1.14 (pyright/tsls/gopls)",
+      "repo": "fastapi",
+      "n_tasks": 2,
+      "anchor_found_rate": 0.0,
+      "mean_anchor_rank": null,
+      "mean_neighbor_recall": 0.0,
+      "mean_score": 0.0,
+      "rows": [
+        {
+          "task_id": "fastapi-route-handler-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 1,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0,
+          "neighbor_names": []
+        },
+        {
+          "task_id": "fastapi-get-dependant-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 2,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0,
+          "neighbor_names": []
+        }
+      ]
+    },
+    {
+      "tool": "lsp",
+      "version": "code 0.1.14 (pyright/tsls/gopls)",
+      "repo": "httpx",
+      "n_tasks": 2,
+      "anchor_found_rate": 0.0,
+      "mean_anchor_rank": null,
+      "mean_neighbor_recall": 0.0,
+      "mean_score": 0.0,
+      "rows": [
+        {
+          "task_id": "httpx-client-request-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 6,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0,
+          "neighbor_names": []
+        },
+        {
+          "task_id": "httpx-async-request-tests",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 1,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0,
+          "neighbor_names": []
+        }
+      ]
+    },
+    {
+      "tool": "ttsc",
+      "version": "ttsc-graph ttscgraph 0.16.8 (commit 642e49fd3c9e, built 2026-07-02T15:31:13.812Z, darwin/amd64, go go1.26.4)",
+      "repo": "express",
+      "n_tasks": 1,
+      "anchor_found_rate": 1.0,
+      "mean_anchor_rank": 0.0,
+      "mean_neighbor_recall": 0.0,
+      "mean_score": 0.0,
+      "rows": [
+        {
+          "task_id": "express-create-application-callees",
+          "anchor_found": true,
+          "anchor_rank": 0,
+          "neighbor_count": 0,
+          "expected_count": 3,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0,
+          "neighbor_names": []
+        }
+      ]
+    },
+    {
+      "tool": "lsp",
+      "version": "code 0.1.14 (pyright/tsls/gopls)",
+      "repo": "gin",
+      "n_tasks": 2,
+      "anchor_found_rate": 0.0,
+      "mean_anchor_rank": null,
+      "mean_neighbor_recall": 0.0,
+      "mean_score": 0.0,
+      "rows": [
+        {
+          "task_id": "gin-serve-http-callees",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 1,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0,
+          "neighbor_names": []
+        },
+        {
+          "task_id": "gin-context-next-callers",
+          "anchor_found": false,
+          "anchor_rank": -1,
+          "neighbor_count": 0,
+          "expected_count": 2,
+          "matched_count": 0,
+          "neighbor_recall": 0.0,
+          "score": 0.0,
+          "neighbor_names": []
+        }
+      ]
+    }
+  ],
+  "impact": []
+}

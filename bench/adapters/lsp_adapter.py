@@ -163,10 +163,16 @@ class LspAdapter:
                 tail = suffix.split("::")[-1]
                 bare = tail.split(".")[-1]
                 expected = [e.lower() for e in t.expected_neighbor_names]
+                try:
+                    raw_hits = client.workspace_symbols(t.nl_query)[: t.k]
+                except LspError:
+                    # e.g. tsserver's navto errors on verbose NL strings —
+                    # that IS the own-search result: no anchor.
+                    raw_hits = []
                 hits = [
                     {**h, "qualified_name":
                         f'{h.get("container") or ""}.{h["name"]}'.lstrip(".")}
-                    for h in client.workspace_symbols(t.nl_query)[: t.k]
+                    for h in raw_hits
                 ]
                 anchor, rank = _pick_anchor(hits, bare, tail)
                 if anchor is None or anchor.get("file_path") is None:

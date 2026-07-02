@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Skill(please:plan)",
+      "Skill(please:implement)"
+    ],
+    "deny": [
+    ],
+    "ask": []
+  },
+  "enabledPlugins": {
+    "pyright-lsp@code-intelligence": true
+  },
+  "extraKnownMarketplaces": {
+    "code-intelligence": {
+      "source": {
+        "source": "github",
+        "repo": "chatbot-pf/code-intelligence"
+      },
+      "autoUpdate": true
+    }
+  },
+  "language": "english"
+}
