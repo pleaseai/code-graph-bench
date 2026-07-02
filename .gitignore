@@ -29,3 +29,4 @@ build/
 # soop RPG cache
 .rpg/
 .toolchain/
+.claude/settings.json
