@@ -1,0 +1,66 @@
+results/arm_b-20260703-031833.json
+  s_afde1a091bbe99::t_203d3b142935ce 1-30
+results/arm_h-20260703-024457.json
+  s_afde1a091bbe99::t_9c7033508cfbf8 1-116
+README.md
+  s_afde1a091bbe99::t_04356350feff4f 216-228
+  s_afde1a091bbe99::t_c8c8523000da5b 64-69
+  s_afde1a091bbe99::t_273e94d6b9d04b 214-215
+  s_afde1a091bbe99::t_b0112fd14103bb 37-39
+  s_afde1a091bbe99::t_3dd348cac89686 167-176
+  s_afde1a091bbe99::t_d93cdc831f32f9 188
+  s_afde1a091bbe99::t_b4696e88efcb38 125-140
+  s_9de6b7e51028e2::t_09ce4508f7a262 3,13-14
+results/arm_b-20260703-023316.json
+  s_afde1a091bbe99::t_b184732739239b 1-41
+results/arm_b-20260703-024922.json
+  s_afde1a091bbe99::t_c5f9f6795134a0 1-30
+RESULTS.md
+  s_afde1a091bbe99::t_3ad6cf7f59b455 275-288
+  s_afde1a091bbe99::t_d38832159d075a 6,8
+  s_afde1a091bbe99::t_480f99b2858a1b 73,79-81,88,92,96,100-101,105,107,109-115
+  s_afde1a091bbe99::t_8c5ba0d57315f0 167-209
+bench/runners/arm_d_agent.py
+  s_afde1a091bbe99::t_5d7c3a267dfe48 6-16,21-22
+  s_afde1a091bbe99::t_c7f105df54ba7b 83,86-87,101-105,107-113,122-124,126-128
+  s_afde1a091bbe99::t_be130242e3113f 219,223
+  s_afde1a091bbe99::t_9844c465a582b9 197-199
+  s_afde1a091bbe99::t_3cbaeba05c975b 39
+  s_afde1a091bbe99::t_1f414afac77a43 37
+  s_afde1a091bbe99::t_d21fb6c827aa44 144,152,161,167-184
+  s_afde1a091bbe99::t_d53289b45f0a60 44,53-61,74-79
+results/arm_h-20260703-024936.json
+  s_afde1a091bbe99::t_dd4b49d102f38a 1-482
+bench/adapters/lsp_adapter.py
+  s_afde1a091bbe99::t_c8e316a985a8a0 166-171,175
+results/arm_b-20260703-031705.json
+  s_afde1a091bbe99::t_0639bc8461e60d 1-166
+results/arm_h-20260703-025858.json
+  s_afde1a091bbe99::t_e0a459fd085a86 1-725
+results/arm_h-20260703-031522.json
+  s_afde1a091bbe99::t_020413c718a14e 1-623
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "7d761befc651fa8e7fe95fedc26d8107c184ebdf",
+  "prompts": {},
+  "sessions": {
+    "s_9de6b7e51028e2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "01c1b0fb-cd68-4074-a4dd-439b11ff526c",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Minsu Lee <minsu.lee@pleaseai.dev>"
+    },
+    "s_afde1a091bbe99": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "13c63ab2-3c23-4ab9-99ba-8442e6089156",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Minsu Lee <minsu.lee@pleaseai.dev>"
+    }
+  }
+}
